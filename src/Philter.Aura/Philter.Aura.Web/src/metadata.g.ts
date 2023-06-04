@@ -7,18 +7,84 @@ import {
 
 
 const domain: Domain = { enums: {}, types: {}, services: {} }
-export const ApplicationUser = domain.types.ApplicationUser = {
-  name: "ApplicationUser",
-  displayName: "Application User",
+export const AuraUser = domain.types.AuraUser = {
+  name: "AuraUser",
+  displayName: "Aura User",
   get displayProp() { return this.props.name }, 
   type: "model",
-  controllerRoute: "ApplicationUser",
-  get keyProp() { return this.props.applicationUserId }, 
+  controllerRoute: "AuraUser",
+  get keyProp() { return this.props.auraUserId }, 
   behaviorFlags: 7 as BehaviorFlags,
   props: {
-    applicationUserId: {
-      name: "applicationUserId",
-      displayName: "Application User Id",
+    auraUserId: {
+      name: "auraUserId",
+      displayName: "User ID",
+      description: "A unique user identifying GUID",
+      type: "string",
+      role: "primaryKey",
+      hidden: 3 as HiddenAreas,
+    },
+    name: {
+      name: "name",
+      displayName: "Name",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Name is required.",
+        maxLength: val => !val || val.length <= 150 || "Name may not be more than 150 characters.",
+      }
+    },
+    email: {
+      name: "email",
+      displayName: "Email",
+      type: "string",
+      subtype: "email",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Email is required.",
+        maxLength: val => !val || val.length <= 200 || "Email may not be more than 200 characters.",
+        email: val => !val || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<> ()\[\]\\.,;:\s@"]+)*)|(".+ "))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val.trim()) || "Email must be a valid email address.",
+      }
+    },
+    lastLogin: {
+      name: "lastLogin",
+      displayName: "Last Login",
+      type: "date",
+      dateKind: "datetime",
+      role: "value",
+    },
+    managedHouses: {
+      name: "managedHouses",
+      displayName: "Managed Houses",
+      type: "collection",
+      itemType: {
+        name: "$collectionItem",
+        displayName: "",
+        role: "value",
+        type: "model",
+        get typeDef() { return (domain.types.House as ModelType) },
+      },
+      role: "value",
+      dontSerialize: true,
+    },
+  },
+  methods: {
+  },
+  dataSources: {
+  },
+}
+export const House = domain.types.House = {
+  name: "House",
+  displayName: "House",
+  get displayProp() { return this.props.name }, 
+  type: "model",
+  controllerRoute: "House",
+  get keyProp() { return this.props.houseId }, 
+  behaviorFlags: 7 as BehaviorFlags,
+  props: {
+    houseId: {
+      name: "houseId",
+      displayName: "House Id",
       type: "number",
       role: "primaryKey",
       hidden: 3 as HiddenAreas,
@@ -30,7 +96,57 @@ export const ApplicationUser = domain.types.ApplicationUser = {
       role: "value",
       rules: {
         required: val => (val != null && val !== '') || "Name is required.",
+        maxLength: val => !val || val.length <= 200 || "Name may not be more than 200 characters.",
       }
+    },
+    address: {
+      name: "address",
+      displayName: "Address",
+      type: "string",
+      subtype: "multiline",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Address is required.",
+        maxLength: val => !val || val.length <= 1000 || "Address may not be more than 1000 characters.",
+      }
+    },
+    mainPhone: {
+      name: "mainPhone",
+      displayName: "Main Phone Number",
+      description: "The main phone number to reach the house",
+      type: "string",
+      subtype: "tel",
+      role: "value",
+      rules: {
+        maxLength: val => !val || val.length <= 50 || "Main Phone Number may not be more than 50 characters.",
+        phone: val => !val || /^(\+\s?)?((?<!\+.*)\(\+?\d+([\s\-\.]?\d+)?\)|\d+)([\s\-\.]?(\(\d+([\s\-\.]?\d+)?\)|\d+))*(\s?(x|ext\.?)\s?\d+)?$/.test(val.replace(/\s+/g, '')) || "Main Phone Number must be a valid phone number.",
+      }
+    },
+    altPhone: {
+      name: "altPhone",
+      displayName: "Alternate Phone Number",
+      description: "An alternate phone number to reach the house",
+      type: "string",
+      subtype: "tel",
+      role: "value",
+      rules: {
+        maxLength: val => !val || val.length <= 50 || "Alternate Phone Number may not be more than 50 characters.",
+        phone: val => !val || /^(\+\s?)?((?<!\+.*)\(\+?\d+([\s\-\.]?\d+)?\)|\d+)([\s\-\.]?(\(\d+([\s\-\.]?\d+)?\)|\d+))*(\s?(x|ext\.?)\s?\d+)?$/.test(val.replace(/\s+/g, '')) || "Alternate Phone Number must be a valid phone number.",
+      }
+    },
+    managers: {
+      name: "managers",
+      displayName: "Managers",
+      type: "collection",
+      itemType: {
+        name: "$collectionItem",
+        displayName: "",
+        role: "value",
+        type: "model",
+        get typeDef() { return (domain.types.AuraUser as ModelType) },
+      },
+      role: "value",
+      dontSerialize: true,
     },
   },
   methods: {
@@ -43,7 +159,8 @@ interface AppDomain extends Domain {
   enums: {
   }
   types: {
-    ApplicationUser: typeof ApplicationUser
+    AuraUser: typeof AuraUser
+    House: typeof House
   }
   services: {
   }

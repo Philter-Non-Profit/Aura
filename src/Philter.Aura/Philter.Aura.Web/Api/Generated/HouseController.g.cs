@@ -20,54 +20,54 @@ using System.Threading.Tasks;
 
 namespace Philter.Aura.Web.Api
 {
-    [Route("api/ApplicationUser")]
+    [Route("api/House")]
     [Authorize]
     [ServiceFilter(typeof(IApiActionFilter))]
-    public partial class ApplicationUserController
-        : BaseApiController<Philter.Aura.Data.Models.ApplicationUser, ApplicationUserDtoGen, Philter.Aura.Data.AppDbContext>
+    public partial class HouseController
+        : BaseApiController<Philter.Aura.Data.Models.House, HouseDtoGen, Philter.Aura.Data.AuraDbContext>
     {
-        public ApplicationUserController(CrudContext<Philter.Aura.Data.AppDbContext> context) : base(context)
+        public HouseController(CrudContext<Philter.Aura.Data.AuraDbContext> context) : base(context)
         {
-            GeneratedForClassViewModel = context.ReflectionRepository.GetClassViewModel<Philter.Aura.Data.Models.ApplicationUser>();
+            GeneratedForClassViewModel = context.ReflectionRepository.GetClassViewModel<Philter.Aura.Data.Models.House>();
         }
 
         [HttpGet("get/{id}")]
         [Authorize]
-        public virtual Task<ItemResult<ApplicationUserDtoGen>> Get(
+        public virtual Task<ItemResult<HouseDtoGen>> Get(
             int id,
             DataSourceParameters parameters,
-            IDataSource<Philter.Aura.Data.Models.ApplicationUser> dataSource)
+            IDataSource<Philter.Aura.Data.Models.House> dataSource)
             => GetImplementation(id, parameters, dataSource);
 
         [HttpGet("list")]
         [Authorize]
-        public virtual Task<ListResult<ApplicationUserDtoGen>> List(
+        public virtual Task<ListResult<HouseDtoGen>> List(
             ListParameters parameters,
-            IDataSource<Philter.Aura.Data.Models.ApplicationUser> dataSource)
+            IDataSource<Philter.Aura.Data.Models.House> dataSource)
             => ListImplementation(parameters, dataSource);
 
         [HttpGet("count")]
         [Authorize]
         public virtual Task<ItemResult<int>> Count(
             FilterParameters parameters,
-            IDataSource<Philter.Aura.Data.Models.ApplicationUser> dataSource)
+            IDataSource<Philter.Aura.Data.Models.House> dataSource)
             => CountImplementation(parameters, dataSource);
 
         [HttpPost("save")]
         [Authorize]
-        public virtual Task<ItemResult<ApplicationUserDtoGen>> Save(
-            [FromForm] ApplicationUserDtoGen dto,
+        public virtual Task<ItemResult<HouseDtoGen>> Save(
+            [FromForm] HouseDtoGen dto,
             [FromQuery] DataSourceParameters parameters,
-            IDataSource<Philter.Aura.Data.Models.ApplicationUser> dataSource,
-            IBehaviors<Philter.Aura.Data.Models.ApplicationUser> behaviors)
+            IDataSource<Philter.Aura.Data.Models.House> dataSource,
+            IBehaviors<Philter.Aura.Data.Models.House> behaviors)
             => SaveImplementation(dto, parameters, dataSource, behaviors);
 
         [HttpPost("delete/{id}")]
         [Authorize]
-        public virtual Task<ItemResult<ApplicationUserDtoGen>> Delete(
+        public virtual Task<ItemResult<HouseDtoGen>> Delete(
             int id,
-            IBehaviors<Philter.Aura.Data.Models.ApplicationUser> behaviors,
-            IDataSource<Philter.Aura.Data.Models.ApplicationUser> dataSource)
+            IBehaviors<Philter.Aura.Data.Models.House> behaviors,
+            IDataSource<Philter.Aura.Data.Models.House> dataSource)
             => DeleteImplementation(id, new DataSourceParameters(), dataSource, behaviors);
     }
 }

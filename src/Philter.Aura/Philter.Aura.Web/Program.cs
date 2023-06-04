@@ -31,7 +31,7 @@ builder.Configuration
 
 var services = builder.Services;
 
-services.AddDbContext<AppDbContext>(options => options
+services.AddDbContext<AuraDbContext>(options => options
     .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), opt => opt
         .EnableRetryOnFailure()
         .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
@@ -40,7 +40,7 @@ services.AddDbContext<AppDbContext>(options => options
     .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.NavigationBaseIncludeIgnored))
 );
 
-services.AddCoalesce<AppDbContext>();
+services.AddCoalesce<AuraDbContext>();
 
 services
     .AddMvc()
@@ -135,7 +135,7 @@ using (var scope = app.Services.CreateScope())
     var serviceScope = scope.ServiceProvider;
 
     // Run database migrations.
-    using var db = serviceScope.GetRequiredService<AppDbContext>();
+    using var db = serviceScope.GetRequiredService<AuraDbContext>();
     db.Database.Migrate();
 }
 
