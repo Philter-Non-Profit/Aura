@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <DotnetCliToolTargetFramework>net7.0</DotnetCliToolTargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Philter.Aura.Data\Philter.Aura.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IntelliTect.Coalesce.Vue" Version="$(CoalesceVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="IntelliTect.Coalesce.Tools" Version="$(CoalesceVersion)" />
+  </ItemGroup>
+</Project>
