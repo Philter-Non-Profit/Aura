@@ -1,0 +1,16 @@
+{
+  "webProject": {
+    "projectFile": "./Philter.Aura.Web/Philter.Aura.Web.csproj"
+  },
+  "dataProject": {
+    "projectFile": "./Philter.Aura.Data/Philter.Aura.Data.csproj"
+  },
+
+  "rootGenerator": "Vue",
+
+  "generatorConfig": {
+    "Scripts": {
+      "targetDirectory": "../src"
+    }
+  }
+}
