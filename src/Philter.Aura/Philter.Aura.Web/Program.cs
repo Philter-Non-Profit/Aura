@@ -86,7 +86,6 @@ services.AddAuthentication(auth =>
         options.ClientId = builder.Configuration["AzureAD:ClientId"];
         options.TenantId = builder.Configuration["AzureAD:TenantId"];
         options.Instance = builder.Configuration["AzureAD:Instance"]!;
-        options.Domain = builder.Configuration["AzureAD:Domain"];
         options.CallbackPath = builder.Configuration["AzureAD:CallbackPath"];
         options.ClientSecret = builder.Configuration["AzureAD:ClientSecret"];
 
