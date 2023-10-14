@@ -3,8 +3,23 @@ import * as $models from './models.g'
 import { AxiosClient, ModelApiClient, ServiceApiClient, ItemResult, ListResult } from 'coalesce-vue/lib/api-client'
 import { AxiosPromise, AxiosResponse, AxiosRequestConfig } from 'axios'
 
-export class ApplicationUserApiClient extends ModelApiClient<$models.ApplicationUser> {
-  constructor() { super($metadata.ApplicationUser) }
+export class AuraUserApiClient extends ModelApiClient<$models.AuraUser> {
+  constructor() { super($metadata.AuraUser) }
+}
+
+
+export class HouseApiClient extends ModelApiClient<$models.House> {
+  constructor() { super($metadata.House) }
+}
+
+
+export class HouseManagerApiClient extends ModelApiClient<$models.HouseManager> {
+  constructor() { super($metadata.HouseManager) }
+}
+
+
+export class RoomApiClient extends ModelApiClient<$models.Room> {
+  constructor() { super($metadata.Room) }
 }
 
 
