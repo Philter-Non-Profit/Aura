@@ -148,6 +148,88 @@ export const House = domain.types.House = {
       role: "value",
       dontSerialize: true,
     },
+    rooms: {
+      name: "rooms",
+      displayName: "Rooms",
+      type: "collection",
+      itemType: {
+        name: "$collectionItem",
+        displayName: "",
+        role: "value",
+        type: "model",
+        get typeDef() { return (domain.types.Room as ModelType) },
+      },
+      role: "collectionNavigation",
+      get foreignKey() { return (domain.types.Room as ModelType).props.houseId as ForeignKeyProperty },
+      get inverseNavigation() { return (domain.types.Room as ModelType).props.house as ModelReferenceNavigationProperty },
+      dontSerialize: true,
+    },
+  },
+  methods: {
+  },
+  dataSources: {
+  },
+}
+export const Room = domain.types.Room = {
+  name: "Room",
+  displayName: "Room",
+  get displayProp() { return this.props.name }, 
+  type: "model",
+  controllerRoute: "Room",
+  get keyProp() { return this.props.roomId }, 
+  behaviorFlags: 7 as BehaviorFlags,
+  props: {
+    roomId: {
+      name: "roomId",
+      displayName: "Room Id",
+      type: "number",
+      role: "primaryKey",
+      hidden: 3 as HiddenAreas,
+    },
+    houseId: {
+      name: "houseId",
+      displayName: "House Id",
+      type: "number",
+      role: "foreignKey",
+      get principalKey() { return (domain.types.House as ModelType).props.houseId as PrimaryKeyProperty },
+      get principalType() { return (domain.types.House as ModelType) },
+      get navigationProp() { return (domain.types.Room as ModelType).props.house as ModelReferenceNavigationProperty },
+      hidden: 3 as HiddenAreas,
+      rules: {
+        required: val => val != null || "House is required.",
+      }
+    },
+    house: {
+      name: "house",
+      displayName: "House",
+      type: "model",
+      get typeDef() { return (domain.types.House as ModelType) },
+      role: "referenceNavigation",
+      get foreignKey() { return (domain.types.Room as ModelType).props.houseId as ForeignKeyProperty },
+      get principalKey() { return (domain.types.House as ModelType).props.houseId as PrimaryKeyProperty },
+      get inverseNavigation() { return (domain.types.House as ModelType).props.rooms as ModelCollectionNavigationProperty },
+      dontSerialize: true,
+    },
+    name: {
+      name: "name",
+      displayName: "Name",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Name is required.",
+        maxLength: val => !val || val.length <= 200 || "Name may not be more than 200 characters.",
+      }
+    },
+    notes: {
+      name: "notes",
+      displayName: "Notes",
+      type: "string",
+      subtype: "multiline",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Notes is required.",
+      }
+    },
   },
   methods: {
   },
@@ -161,6 +243,7 @@ interface AppDomain extends Domain {
   types: {
     AuraUser: typeof AuraUser
     House: typeof House
+    Room: typeof Room
   }
   services: {
   }

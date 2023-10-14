@@ -9,12 +9,16 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    CDisplay: typeof import('coalesce-vue-vuetify3')['CDisplay']
+    CInput: typeof import('coalesce-vue-vuetify3')['CInput']
+    CLoaderStatus: typeof import('coalesce-vue-vuetify3')['CLoaderStatus']
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     VApp: typeof import('vuetify/components')['VApp']
     VAppBar: typeof import('vuetify/components')['VAppBar']
     VAppBarNavIcon: typeof import('vuetify/components')['VAppBarNavIcon']
+    VBtn: typeof import('vuetify/components')['VBtn']
     VCard: typeof import('vuetify/components')['VCard']
     VCardText: typeof import('vuetify/components')['VCardText']
     VCardTitle: typeof import('vuetify/components')['VCardTitle']
@@ -28,6 +32,7 @@ declare module '@vue/runtime-core' {
     VMain: typeof import('vuetify/components')['VMain']
     VNavigationDrawer: typeof import('vuetify/components')['VNavigationDrawer']
     VRow: typeof import('vuetify/components')['VRow']
+    VSpacer: typeof import('vuetify/components')['VSpacer']
     VToolbarTitle: typeof import('vuetify/components')['VToolbarTitle']
   }
 }

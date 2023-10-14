@@ -9,6 +9,8 @@ public class AuraDbContext : DbContext
 
     public DbSet<House> Houses => Set<House>();
 
+    public DbSet<Room> Rooms => Set<Room>();
+
 
     public AuraDbContext()
     {
@@ -33,6 +35,9 @@ public class AuraDbContext : DbContext
                 j => j.HasKey("HouseId", "ManagerId"))
             .Property(u => u.AuraUserId)
             .HasDefaultValueSql("newid()");
+
+        builder.Entity<House>()
+            .HasMany(e => e.Rooms);
 
         // Remove cascading deletes.
         foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))

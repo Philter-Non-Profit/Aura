@@ -18,6 +18,7 @@ namespace Philter.Aura.Web.Models
         private string _MainPhone;
         private string _AltPhone;
         private System.Collections.Generic.ICollection<Philter.Aura.Web.Models.AuraUserDtoGen> _Managers;
+        private System.Collections.Generic.ICollection<Philter.Aura.Web.Models.RoomDtoGen> _Rooms;
 
         public int? HouseId
         {
@@ -49,6 +50,11 @@ namespace Philter.Aura.Web.Models
             get => _Managers;
             set { _Managers = value; Changed(nameof(Managers)); }
         }
+        public System.Collections.Generic.ICollection<Philter.Aura.Web.Models.RoomDtoGen> Rooms
+        {
+            get => _Rooms;
+            set { _Rooms = value; Changed(nameof(Rooms)); }
+        }
 
         /// <summary>
         /// Map from the domain object to the properties of the current DTO instance.
@@ -73,6 +79,18 @@ namespace Philter.Aura.Web.Models
             else if (propValManagers == null && tree?[nameof(this.Managers)] != null)
             {
                 this.Managers = new AuraUserDtoGen[0];
+            }
+
+            var propValRooms = obj.Rooms;
+            if (propValRooms != null && (tree == null || tree[nameof(this.Rooms)] != null))
+            {
+                this.Rooms = propValRooms
+                    .OrderBy(f => f.Name)
+                    .Select(f => f.MapToDto<Philter.Aura.Data.Models.Room, RoomDtoGen>(context, tree?[nameof(this.Rooms)])).ToList();
+            }
+            else if (propValRooms == null && tree?[nameof(this.Rooms)] != null)
+            {
+                this.Rooms = new RoomDtoGen[0];
             }
 
         }

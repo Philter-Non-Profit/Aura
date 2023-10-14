@@ -28,6 +28,8 @@ public class House
     public string AltPhone { get; set; }
 
     public List<AuraUser> Managers { get; set; } = new();
+
+    [InverseProperty(nameof(Room.House))]
+    public List<Room> Rooms { get; set; } = new();
 }
 
-#nullable restore

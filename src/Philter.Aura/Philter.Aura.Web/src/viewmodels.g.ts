@@ -39,8 +39,14 @@ export interface HouseViewModel extends $models.House {
   /** An alternate phone number to reach the house */
   altPhone: string | null;
   managers: AuraUserViewModel[] | null;
+  rooms: RoomViewModel[] | null;
 }
 export class HouseViewModel extends ViewModel<$models.House, $apiClients.HouseApiClient, number> implements $models.House  {
+  
+  
+  public addToRooms() {
+    return this.$addChild('rooms') as RoomViewModel
+  }
   
   constructor(initialData?: DeepPartial<$models.House> | null) {
     super($metadata.House, new $apiClients.HouseApiClient(), initialData)
@@ -56,13 +62,38 @@ export class HouseListViewModel extends ListViewModel<$models.House, $apiClients
 }
 
 
+export interface RoomViewModel extends $models.Room {
+  roomId: number | null;
+  houseId: number | null;
+  house: HouseViewModel | null;
+  name: string | null;
+  notes: string | null;
+}
+export class RoomViewModel extends ViewModel<$models.Room, $apiClients.RoomApiClient, number> implements $models.Room  {
+  
+  constructor(initialData?: DeepPartial<$models.Room> | null) {
+    super($metadata.Room, new $apiClients.RoomApiClient(), initialData)
+  }
+}
+defineProps(RoomViewModel, $metadata.Room)
+
+export class RoomListViewModel extends ListViewModel<$models.Room, $apiClients.RoomApiClient, RoomViewModel> {
+  
+  constructor() {
+    super($metadata.Room, new $apiClients.RoomApiClient())
+  }
+}
+
+
 const viewModelTypeLookup = ViewModel.typeLookup = {
   AuraUser: AuraUserViewModel,
   House: HouseViewModel,
+  Room: RoomViewModel,
 }
 const listViewModelTypeLookup = ListViewModel.typeLookup = {
   AuraUser: AuraUserListViewModel,
   House: HouseListViewModel,
+  Room: RoomListViewModel,
 }
 const serviceViewModelTypeLookup = ServiceViewModel.typeLookup = {
 }
