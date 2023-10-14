@@ -10,9 +10,18 @@ export interface AuraUserViewModel extends $models.AuraUser {
   name: string | null;
   email: string | null;
   lastLogin: Date | null;
-  managedHouses: HouseViewModel[] | null;
+  houseManagers: HouseManagerViewModel[] | null;
 }
 export class AuraUserViewModel extends ViewModel<$models.AuraUser, $apiClients.AuraUserApiClient, string> implements $models.AuraUser  {
+  
+  
+  public addToHouseManagers() {
+    return this.$addChild('houseManagers') as HouseManagerViewModel
+  }
+  
+  get houses(): ReadonlyArray<HouseViewModel> {
+    return (this.houseManagers || []).map($ => $.house!).filter($ => $)
+  }
   
   constructor(initialData?: DeepPartial<$models.AuraUser> | null) {
     super($metadata.AuraUser, new $apiClients.AuraUserApiClient(), initialData)
@@ -38,10 +47,19 @@ export interface HouseViewModel extends $models.House {
   
   /** An alternate phone number to reach the house */
   altPhone: string | null;
-  managers: AuraUserViewModel[] | null;
+  houseManagers: HouseManagerViewModel[] | null;
   rooms: RoomViewModel[] | null;
 }
 export class HouseViewModel extends ViewModel<$models.House, $apiClients.HouseApiClient, number> implements $models.House  {
+  
+  
+  public addToHouseManagers() {
+    return this.$addChild('houseManagers') as HouseManagerViewModel
+  }
+  
+  get auraUsers(): ReadonlyArray<AuraUserViewModel> {
+    return (this.houseManagers || []).map($ => $.auraUser!).filter($ => $)
+  }
   
   
   public addToRooms() {
@@ -58,6 +76,29 @@ export class HouseListViewModel extends ListViewModel<$models.House, $apiClients
   
   constructor() {
     super($metadata.House, new $apiClients.HouseApiClient())
+  }
+}
+
+
+export interface HouseManagerViewModel extends $models.HouseManager {
+  houseManagerId: number | null;
+  houseId: number | null;
+  house: HouseViewModel | null;
+  auraUserId: string | null;
+  auraUser: AuraUserViewModel | null;
+}
+export class HouseManagerViewModel extends ViewModel<$models.HouseManager, $apiClients.HouseManagerApiClient, number> implements $models.HouseManager  {
+  
+  constructor(initialData?: DeepPartial<$models.HouseManager> | null) {
+    super($metadata.HouseManager, new $apiClients.HouseManagerApiClient(), initialData)
+  }
+}
+defineProps(HouseManagerViewModel, $metadata.HouseManager)
+
+export class HouseManagerListViewModel extends ListViewModel<$models.HouseManager, $apiClients.HouseManagerApiClient, HouseManagerViewModel> {
+  
+  constructor() {
+    super($metadata.HouseManager, new $apiClients.HouseManagerApiClient())
   }
 }
 
@@ -88,11 +129,13 @@ export class RoomListViewModel extends ListViewModel<$models.Room, $apiClients.R
 const viewModelTypeLookup = ViewModel.typeLookup = {
   AuraUser: AuraUserViewModel,
   House: HouseViewModel,
+  HouseManager: HouseManagerViewModel,
   Room: RoomViewModel,
 }
 const listViewModelTypeLookup = ListViewModel.typeLookup = {
   AuraUser: AuraUserListViewModel,
   House: HouseListViewModel,
+  HouseManager: HouseManagerListViewModel,
   Room: RoomListViewModel,
 }
 const serviceViewModelTypeLookup = ServiceViewModel.typeLookup = {

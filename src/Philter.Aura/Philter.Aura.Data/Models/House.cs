@@ -1,7 +1,6 @@
 ﻿
 namespace Philter.Aura.Data.Models;
 
-#nullable disable
 
 public class House
 {
@@ -10,26 +9,27 @@ public class House
 
     [Required]
     [MaxLength(200)]
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     [Required]
     [MaxLength(1000)]
     [DataType(DataType.MultilineText)]
-    public string Address { get; set; }
+    public string Address { get; set; } = null!;
 
     [MaxLength(50)]
     [Phone]
     [Display(Name = "Main Phone Number", Description = "The main phone number to reach the house")]
-    public string MainPhone { get; set; }
+    public string? MainPhone { get; set; }
 
     [MaxLength(50)]
     [Phone]
     [Display(Name = "Alternate Phone Number", Description = "An alternate phone number to reach the house")]
-    public string AltPhone { get; set; }
+    public string? AltPhone { get; set; } = null!;
 
-    public List<AuraUser> Managers { get; set; } = new();
+    [ManyToMany("AuraUsers", FarNavigationProperty = nameof(HouseManager.AuraUser))]
+    public ICollection<HouseManager> HouseManagers { get; set; } = new List<HouseManager>();
 
     [InverseProperty(nameof(Room.House))]
-    public List<Room> Rooms { get; set; } = new();
+    public ICollection<Room> Rooms { get; set; } = new List<Room>();
 }
 

@@ -1,6 +1,6 @@
+
 namespace Philter.Aura.Data.Models;
 
-#nullable disable
 
 public class AuraUser
 {
@@ -11,16 +11,19 @@ public class AuraUser
 
     [Required]
     [MaxLength(150)]
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     [Required]
     [MaxLength(200)]
     [EmailAddress]
-    public string Email { get; set; }
+    public string Email { get; set; } = null!;
 
     public DateTimeOffset? LastLogin { get; set; }
 
-    public List<House> ManagedHouses { get; set; } = new();
+    [ManyToMany("Houses", FarNavigationProperty = nameof(HouseManager.House))]
+    public ICollection<HouseManager> HouseManagers { get; set; } = new List<HouseManager>();
+
+
 
 #nullable restore
 

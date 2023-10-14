@@ -53,18 +53,29 @@ export const AuraUser = domain.types.AuraUser = {
       dateKind: "datetime",
       role: "value",
     },
-    managedHouses: {
-      name: "managedHouses",
-      displayName: "Managed Houses",
+    houseManagers: {
+      name: "houseManagers",
+      displayName: "House Managers",
       type: "collection",
       itemType: {
         name: "$collectionItem",
         displayName: "",
         role: "value",
         type: "model",
-        get typeDef() { return (domain.types.House as ModelType) },
+        get typeDef() { return (domain.types.HouseManager as ModelType) },
       },
-      role: "value",
+      role: "collectionNavigation",
+      get foreignKey() { return (domain.types.HouseManager as ModelType).props.auraUserId as ForeignKeyProperty },
+      get inverseNavigation() { return (domain.types.HouseManager as ModelType).props.auraUser as ModelReferenceNavigationProperty },
+      manyToMany: {
+        name: "houses",
+        displayName: "Houses",
+        get typeDef() { return (domain.types.House as ModelType) },
+        get farForeignKey() { return (domain.types.HouseManager as ModelType).props.houseId as ForeignKeyProperty },
+        get farNavigationProp() { return (domain.types.HouseManager as ModelType).props.house as ModelReferenceNavigationProperty },
+        get nearForeignKey() { return (domain.types.HouseManager as ModelType).props.auraUserId as ForeignKeyProperty },
+        get nearNavigationProp() { return (domain.types.HouseManager as ModelType).props.auraUser as ModelReferenceNavigationProperty },
+      },
       dontSerialize: true,
     },
   },
@@ -134,18 +145,29 @@ export const House = domain.types.House = {
         phone: val => !val || /^(\+\s?)?((?<!\+.*)\(\+?\d+([\s\-\.]?\d+)?\)|\d+)([\s\-\.]?(\(\d+([\s\-\.]?\d+)?\)|\d+))*(\s?(x|ext\.?)\s?\d+)?$/.test(val.replace(/\s+/g, '')) || "Alternate Phone Number must be a valid phone number.",
       }
     },
-    managers: {
-      name: "managers",
-      displayName: "Managers",
+    houseManagers: {
+      name: "houseManagers",
+      displayName: "House Managers",
       type: "collection",
       itemType: {
         name: "$collectionItem",
         displayName: "",
         role: "value",
         type: "model",
-        get typeDef() { return (domain.types.AuraUser as ModelType) },
+        get typeDef() { return (domain.types.HouseManager as ModelType) },
       },
-      role: "value",
+      role: "collectionNavigation",
+      get foreignKey() { return (domain.types.HouseManager as ModelType).props.houseId as ForeignKeyProperty },
+      get inverseNavigation() { return (domain.types.HouseManager as ModelType).props.house as ModelReferenceNavigationProperty },
+      manyToMany: {
+        name: "auraUsers",
+        displayName: "Aura Users",
+        get typeDef() { return (domain.types.AuraUser as ModelType) },
+        get farForeignKey() { return (domain.types.HouseManager as ModelType).props.auraUserId as ForeignKeyProperty },
+        get farNavigationProp() { return (domain.types.HouseManager as ModelType).props.auraUser as ModelReferenceNavigationProperty },
+        get nearForeignKey() { return (domain.types.HouseManager as ModelType).props.houseId as ForeignKeyProperty },
+        get nearNavigationProp() { return (domain.types.HouseManager as ModelType).props.house as ModelReferenceNavigationProperty },
+      },
       dontSerialize: true,
     },
     rooms: {
@@ -162,6 +184,77 @@ export const House = domain.types.House = {
       role: "collectionNavigation",
       get foreignKey() { return (domain.types.Room as ModelType).props.houseId as ForeignKeyProperty },
       get inverseNavigation() { return (domain.types.Room as ModelType).props.house as ModelReferenceNavigationProperty },
+      dontSerialize: true,
+    },
+  },
+  methods: {
+  },
+  dataSources: {
+  },
+}
+export const HouseManager = domain.types.HouseManager = {
+  name: "HouseManager",
+  displayName: "House Manager",
+  get displayProp() { return this.props.houseManagerId }, 
+  type: "model",
+  controllerRoute: "HouseManager",
+  get keyProp() { return this.props.houseManagerId }, 
+  behaviorFlags: 7 as BehaviorFlags,
+  props: {
+    houseManagerId: {
+      name: "houseManagerId",
+      displayName: "House Manager Id",
+      type: "number",
+      role: "primaryKey",
+      hidden: 3 as HiddenAreas,
+    },
+    houseId: {
+      name: "houseId",
+      displayName: "House Id",
+      type: "number",
+      role: "foreignKey",
+      get principalKey() { return (domain.types.House as ModelType).props.houseId as PrimaryKeyProperty },
+      get principalType() { return (domain.types.House as ModelType) },
+      get navigationProp() { return (domain.types.HouseManager as ModelType).props.house as ModelReferenceNavigationProperty },
+      hidden: 3 as HiddenAreas,
+      rules: {
+        required: val => val != null || "House is required.",
+      }
+    },
+    house: {
+      name: "house",
+      displayName: "House",
+      type: "model",
+      get typeDef() { return (domain.types.House as ModelType) },
+      role: "referenceNavigation",
+      get foreignKey() { return (domain.types.HouseManager as ModelType).props.houseId as ForeignKeyProperty },
+      get principalKey() { return (domain.types.House as ModelType).props.houseId as PrimaryKeyProperty },
+      get inverseNavigation() { return (domain.types.House as ModelType).props.houseManagers as ModelCollectionNavigationProperty },
+      dontSerialize: true,
+    },
+    auraUserId: {
+      name: "auraUserId",
+      displayName: "Aura User Id",
+      type: "string",
+      role: "foreignKey",
+      get principalKey() { return (domain.types.AuraUser as ModelType).props.auraUserId as PrimaryKeyProperty },
+      get principalType() { return (domain.types.AuraUser as ModelType) },
+      get navigationProp() { return (domain.types.HouseManager as ModelType).props.auraUser as ModelReferenceNavigationProperty },
+      hidden: 3 as HiddenAreas,
+      rules: {
+        required: val => val != null || "Aura User is required.",
+        pattern: val => !val || /^\s*[{(]?[0-9A-Fa-f]{8}[-]?(?:[0-9A-Fa-f]{4}[-]?){3}[0-9A-Fa-f]{12}[)}]?\s*$/.test(val) || "Aura User does not match expected format.",
+      }
+    },
+    auraUser: {
+      name: "auraUser",
+      displayName: "Aura User",
+      type: "model",
+      get typeDef() { return (domain.types.AuraUser as ModelType) },
+      role: "referenceNavigation",
+      get foreignKey() { return (domain.types.HouseManager as ModelType).props.auraUserId as ForeignKeyProperty },
+      get principalKey() { return (domain.types.AuraUser as ModelType).props.auraUserId as PrimaryKeyProperty },
+      get inverseNavigation() { return (domain.types.AuraUser as ModelType).props.houseManagers as ModelCollectionNavigationProperty },
       dontSerialize: true,
     },
   },
@@ -243,6 +336,7 @@ interface AppDomain extends Domain {
   types: {
     AuraUser: typeof AuraUser
     House: typeof House
+    HouseManager: typeof HouseManager
     Room: typeof Room
   }
   services: {

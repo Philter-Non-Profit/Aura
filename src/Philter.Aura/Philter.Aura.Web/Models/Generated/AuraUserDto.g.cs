@@ -16,7 +16,7 @@ namespace Philter.Aura.Web.Models
         private string _Name;
         private string _Email;
         private System.DateTimeOffset? _LastLogin;
-        private System.Collections.Generic.ICollection<Philter.Aura.Web.Models.HouseDtoGen> _ManagedHouses;
+        private System.Collections.Generic.ICollection<Philter.Aura.Web.Models.HouseManagerDtoGen> _HouseManagers;
 
         public System.Guid? AuraUserId
         {
@@ -38,10 +38,10 @@ namespace Philter.Aura.Web.Models
             get => _LastLogin;
             set { _LastLogin = value; Changed(nameof(LastLogin)); }
         }
-        public System.Collections.Generic.ICollection<Philter.Aura.Web.Models.HouseDtoGen> ManagedHouses
+        public System.Collections.Generic.ICollection<Philter.Aura.Web.Models.HouseManagerDtoGen> HouseManagers
         {
-            get => _ManagedHouses;
-            set { _ManagedHouses = value; Changed(nameof(ManagedHouses)); }
+            get => _HouseManagers;
+            set { _HouseManagers = value; Changed(nameof(HouseManagers)); }
         }
 
         /// <summary>
@@ -56,16 +56,16 @@ namespace Philter.Aura.Web.Models
             this.Name = obj.Name;
             this.Email = obj.Email;
             this.LastLogin = obj.LastLogin;
-            var propValManagedHouses = obj.ManagedHouses;
-            if (propValManagedHouses != null && (tree == null || tree[nameof(this.ManagedHouses)] != null))
+            var propValHouseManagers = obj.HouseManagers;
+            if (propValHouseManagers != null && (tree == null || tree[nameof(this.HouseManagers)] != null))
             {
-                this.ManagedHouses = propValManagedHouses
-                    .OrderBy(f => f.Name)
-                    .Select(f => f.MapToDto<Philter.Aura.Data.Models.House, HouseDtoGen>(context, tree?[nameof(this.ManagedHouses)])).ToList();
+                this.HouseManagers = propValHouseManagers
+                    .OrderBy(f => f.HouseManagerId)
+                    .Select(f => f.MapToDto<Philter.Aura.Data.Models.HouseManager, HouseManagerDtoGen>(context, tree?[nameof(this.HouseManagers)])).ToList();
             }
-            else if (propValManagedHouses == null && tree?[nameof(this.ManagedHouses)] != null)
+            else if (propValHouseManagers == null && tree?[nameof(this.HouseManagers)] != null)
             {
-                this.ManagedHouses = new HouseDtoGen[0];
+                this.HouseManagers = new HouseManagerDtoGen[0];
             }
 
         }

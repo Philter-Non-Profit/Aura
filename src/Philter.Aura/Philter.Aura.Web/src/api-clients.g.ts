@@ -13,6 +13,11 @@ export class HouseApiClient extends ModelApiClient<$models.House> {
 }
 
 
+export class HouseManagerApiClient extends ModelApiClient<$models.HouseManager> {
+  constructor() { super($metadata.HouseManager) }
+}
+
+
 export class RoomApiClient extends ModelApiClient<$models.Room> {
   constructor() { super($metadata.Room) }
 }

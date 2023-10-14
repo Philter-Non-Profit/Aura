@@ -1,6 +1,5 @@
 ﻿namespace Philter.Aura.Data.Models;
 
-#nullable disable
 
 public class Room
 {
@@ -9,13 +8,12 @@ public class Room
 
     public int HouseId { get; set; }
 
-    public House House { get; set; }
+    public House House { get; set; } = null!;
 
     [Required]
     [MaxLength(200)]
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
-    [Required]
     [DataType(DataType.MultilineText)]
-    public string Notes { get; set; }
+    public string? Notes { get; set; }
 }

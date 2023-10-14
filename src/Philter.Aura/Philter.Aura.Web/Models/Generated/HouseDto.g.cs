@@ -17,7 +17,7 @@ namespace Philter.Aura.Web.Models
         private string _Address;
         private string _MainPhone;
         private string _AltPhone;
-        private System.Collections.Generic.ICollection<Philter.Aura.Web.Models.AuraUserDtoGen> _Managers;
+        private System.Collections.Generic.ICollection<Philter.Aura.Web.Models.HouseManagerDtoGen> _HouseManagers;
         private System.Collections.Generic.ICollection<Philter.Aura.Web.Models.RoomDtoGen> _Rooms;
 
         public int? HouseId
@@ -45,10 +45,10 @@ namespace Philter.Aura.Web.Models
             get => _AltPhone;
             set { _AltPhone = value; Changed(nameof(AltPhone)); }
         }
-        public System.Collections.Generic.ICollection<Philter.Aura.Web.Models.AuraUserDtoGen> Managers
+        public System.Collections.Generic.ICollection<Philter.Aura.Web.Models.HouseManagerDtoGen> HouseManagers
         {
-            get => _Managers;
-            set { _Managers = value; Changed(nameof(Managers)); }
+            get => _HouseManagers;
+            set { _HouseManagers = value; Changed(nameof(HouseManagers)); }
         }
         public System.Collections.Generic.ICollection<Philter.Aura.Web.Models.RoomDtoGen> Rooms
         {
@@ -69,16 +69,16 @@ namespace Philter.Aura.Web.Models
             this.Address = obj.Address;
             this.MainPhone = obj.MainPhone;
             this.AltPhone = obj.AltPhone;
-            var propValManagers = obj.Managers;
-            if (propValManagers != null && (tree == null || tree[nameof(this.Managers)] != null))
+            var propValHouseManagers = obj.HouseManagers;
+            if (propValHouseManagers != null && (tree == null || tree[nameof(this.HouseManagers)] != null))
             {
-                this.Managers = propValManagers
-                    .OrderBy(f => f.Name)
-                    .Select(f => f.MapToDto<Philter.Aura.Data.Models.AuraUser, AuraUserDtoGen>(context, tree?[nameof(this.Managers)])).ToList();
+                this.HouseManagers = propValHouseManagers
+                    .OrderBy(f => f.HouseManagerId)
+                    .Select(f => f.MapToDto<Philter.Aura.Data.Models.HouseManager, HouseManagerDtoGen>(context, tree?[nameof(this.HouseManagers)])).ToList();
             }
-            else if (propValManagers == null && tree?[nameof(this.Managers)] != null)
+            else if (propValHouseManagers == null && tree?[nameof(this.HouseManagers)] != null)
             {
-                this.Managers = new AuraUserDtoGen[0];
+                this.HouseManagers = new HouseManagerDtoGen[0];
             }
 
             var propValRooms = obj.Rooms;
