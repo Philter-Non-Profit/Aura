@@ -1,15 +1,21 @@
 using IntelliTect.Coalesce;
+using IntelliTect.Coalesce.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging.Console;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 using Microsoft.Net.Http.Headers;
-using System.Security.Claims;
+using Philter.Aura.Data;
+using Philter.Aura.Data.Models;
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using Philter.Aura.Data;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -51,12 +57,88 @@ services
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
 
-services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        .AddCookie();
+const string SelectorScheme = $"{JwtBearerDefaults.AuthenticationScheme}_OR_{OpenIdConnectDefaults.AuthenticationScheme}";
+services.AddAuthentication(auth =>
+    {
+        auth.DefaultScheme = SelectorScheme;
+        // Clear specific defaults so they fall back on DefaultScheme.
+        auth.DefaultChallengeScheme = auth.DefaultAuthenticateScheme = null;
+    })
+
+    // Add a scheme that will dynamically select the JWT scheme if a bearer token is present,
+    // or the interactive browser AAD sign in scheme otherwise
+    .AddPolicyScheme(SelectorScheme, SelectorScheme, options =>
+    {
+        options.ForwardDefaultSelector = context =>
+        {
+            string authorization = context.Request.Headers[HeaderNames.Authorization]!;
+            if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer"))
+            {
+                return JwtBearerDefaults.AuthenticationScheme;
+            }
+            return OpenIdConnectDefaults.AuthenticationScheme;
+        };
+    })
+
+    // Add handler for interactive browser AAD sign in
+    .AddMicrosoftIdentityWebApp(options =>
+    {
+        options.ClientId = builder.Configuration["AzureAD:ClientId"];
+        options.TenantId = builder.Configuration["AzureAD:TenantId"];
+        options.Instance = builder.Configuration["AzureAD:Instance"]!;
+        options.Domain = builder.Configuration["AzureAD:Domain"];
+        options.CallbackPath = builder.Configuration["AzureAD:CallbackPath"];
+        options.ClientSecret = builder.Configuration["AzureAD:ClientSecret"];
+
+        options.Events.OnRedirectToIdentityProvider = (context) =>
+        {
+            if ("XmlHttpRequest".Equals(context.Request.Headers.XRequestedWith, StringComparison.OrdinalIgnoreCase))
+            {
+                // Don't redirect AJAX/API requests. Just return a plain Unauthorized response.
+                context.Response.StatusCode = 401;
+                // TODO: Do we need a UserServices.ts for this?
+                // This message is tested for in UserService.ts:
+                context.Response.WriteAsJsonAsync<ItemResult>("You are not signed in.");
+                context.HandleResponse();
+            }
+            return Task.CompletedTask;
+        };
+
+        options.Events.OnTicketReceived = (TicketReceivedContext trc) =>
+        {
+            // Get Email and check to make sure they are allowed to log in
+            string? email = trc.Principal?.Identity?.Name;
+            if (email == null)
+            {
+                trc.Fail("Invalid login");
+                return Task.CompletedTask;
+            }
+            //
+            // Get a database context and check if the user exists in the database
+            AuraDbContext db = trc.HttpContext.RequestServices.GetRequiredService<AuraDbContext>();
+            AuraUser? auraUser = db.Users.FirstOrDefault(f => f.Email == email);
+            if (auraUser == null)
+            {
+                var name = trc.Principal?.Identities.First().Claims.First(x => x.Type == "name").Value
+                       ?? throw new InvalidOperationException("Name is not included");
+
+                auraUser = new AuraUser()
+                {
+                    Name = name,
+                    Email = trc.Principal.Identity?.Name ?? throw new InvalidOperationException("Email is not included")
+                };
+                db.Users.Add(auraUser);
+                db.SaveChanges();
+            }
+            trc.Success();
+
+            return Task.CompletedTask;
+        };
+    });
+
+builder.Services.AddRazorPages().AddMicrosoftIdentityUI();
 
 #endregion
-
-
 
 #region Configure HTTP Pipeline
 
@@ -72,20 +154,6 @@ if (app.Environment.IsDevelopment())
     });
 
     app.MapCoalesceSecurityOverview("coalesce-security");
-
-    // TODO: Dummy authentication for initial development.
-    // Replace this with ASP.NET Core Identity, Windows Authentication, or some other scheme.
-    // This exists only because Coalesce restricts all generated pages and API to only logged in users by default.
-    app.Use(async (context, next) =>
-    {
-        Claim[] claims = new[] { new Claim(ClaimTypes.Name, "developmentuser") };
-
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        await context.SignInAsync(context.User = new ClaimsPrincipal(identity));
-
-        await next.Invoke();
-    });
-    // End Dummy Authentication.
 }
 
 app.UseAuthentication();
