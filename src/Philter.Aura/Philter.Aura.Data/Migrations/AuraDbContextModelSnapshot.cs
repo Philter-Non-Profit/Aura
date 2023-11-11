@@ -44,7 +44,7 @@ namespace Philter.Aura.Data.Migrations
 
                     b.HasKey("AuraUserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Philter.Aura.Data.Models.House", b =>
@@ -75,7 +75,7 @@ namespace Philter.Aura.Data.Migrations
 
                     b.HasKey("HouseId");
 
-                    b.ToTable("Houses");
+                    b.ToTable("Houses", (string)null);
                 });
 
             modelBuilder.Entity("Philter.Aura.Data.Models.HouseManager", b =>
@@ -99,7 +99,7 @@ namespace Philter.Aura.Data.Migrations
                     b.HasIndex("HouseId", "AuraUserId")
                         .IsUnique();
 
-                    b.ToTable("HouseManagers");
+                    b.ToTable("HouseManagers", (string)null);
                 });
 
             modelBuilder.Entity("Philter.Aura.Data.Models.Message", b =>
@@ -127,7 +127,7 @@ namespace Philter.Aura.Data.Migrations
 
                     b.HasIndex("RecipientId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("Philter.Aura.Data.Models.Recipient", b =>
@@ -150,7 +150,7 @@ namespace Philter.Aura.Data.Migrations
 
                     b.HasKey("RecipientId");
 
-                    b.ToTable("Recipients");
+                    b.ToTable("Recipients", (string)null);
                 });
 
             modelBuilder.Entity("Philter.Aura.Data.Models.Room", b =>
@@ -176,7 +176,7 @@ namespace Philter.Aura.Data.Migrations
 
                     b.HasIndex("HouseId");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("Philter.Aura.Data.Models.HouseManager", b =>
