@@ -22,7 +22,7 @@
     </CardWithIcon>
 
     <Dialog title="Edit" v-model="editHouse">
-        <EditHouseForm :house="house">
+        <EditHouseForm :house="house" @saved="editHouse = false">
             <template #buttons>
                 <v-btn color="primary" variant="tonal" class="mr-3" @click="editHouse = false">Cancel</v-btn>
             </template>

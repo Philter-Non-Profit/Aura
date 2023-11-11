@@ -32,7 +32,9 @@ const props = defineProps<{
     house?: HouseViewModel;
 }>();
 
-const isNew = computed(() => !props.house?.houseId);
+const emit = defineEmits<{
+    (e: "saved"): void;
+}>();
 
 const editHouse = computed(() => {
     let house = new HouseViewModel();
@@ -48,5 +50,6 @@ onMounted(() => {
 
 async function save() {
     await editHouse!.value!.$save();
+    emit("saved");
 }
 </script>

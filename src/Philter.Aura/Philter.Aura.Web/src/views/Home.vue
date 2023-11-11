@@ -2,7 +2,7 @@
   <v-container>
     <c-loader-status :loaders="{ '': [houseList?.$load] }" :progressPlaceholder="false">
       <v-row>
-        <v-col v-col cols="12" md="6" lg="5" xl="4" v-if="house">
+        <v-col cols="12" md="6" lg="5" xl="4" v-if="house">
           <HouseCard :house="house" color="purple" />
         </v-col>
         <v-col cols="8" v-else>
@@ -40,6 +40,7 @@
 import { HouseListViewModel } from "@/viewmodels.g";
 
 useTitle("Home");
+
 const houseList = ref<HouseListViewModel>();
 houseList.value = new HouseListViewModel();
 houseList.value.$pageSize = 100;
