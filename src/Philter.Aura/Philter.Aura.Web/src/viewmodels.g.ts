@@ -15,8 +15,8 @@ export interface AuraUserViewModel extends $models.AuraUser {
 export class AuraUserViewModel extends ViewModel<$models.AuraUser, $apiClients.AuraUserApiClient, string> implements $models.AuraUser  {
   
   
-  public addToHouseManagers() {
-    return this.$addChild('houseManagers') as HouseManagerViewModel
+  public addToHouseManagers(initialData?: DeepPartial<$models.HouseManager> | null) {
+    return this.$addChild('houseManagers', initialData) as HouseManagerViewModel
   }
   
   get houses(): ReadonlyArray<HouseViewModel> {
@@ -53,8 +53,8 @@ export interface HouseViewModel extends $models.House {
 export class HouseViewModel extends ViewModel<$models.House, $apiClients.HouseApiClient, number> implements $models.House  {
   
   
-  public addToHouseManagers() {
-    return this.$addChild('houseManagers') as HouseManagerViewModel
+  public addToHouseManagers(initialData?: DeepPartial<$models.HouseManager> | null) {
+    return this.$addChild('houseManagers', initialData) as HouseManagerViewModel
   }
   
   get auraUsers(): ReadonlyArray<AuraUserViewModel> {
@@ -62,8 +62,8 @@ export class HouseViewModel extends ViewModel<$models.House, $apiClients.HouseAp
   }
   
   
-  public addToRooms() {
-    return this.$addChild('rooms') as RoomViewModel
+  public addToRooms(initialData?: DeepPartial<$models.Room> | null) {
+    return this.$addChild('rooms', initialData) as RoomViewModel
   }
   
   constructor(initialData?: DeepPartial<$models.House> | null) {
