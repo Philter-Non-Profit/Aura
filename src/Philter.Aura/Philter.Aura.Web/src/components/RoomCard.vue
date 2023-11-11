@@ -4,7 +4,10 @@
             <v-btn :color="color" density="comfortable" icon="fas fa-pencil" variant="tonal" @click="addRoom = !addRoom" />
         </template>
         <template #default>
-            {{ room.notes }}
+            <div class="font-weight-bold">Notes: </div>
+            <div class="text-body-2" style="overflow: auto; whiteSpace: pre-line">
+                {{ room.notes }}
+            </div>
         </template>
     </CardWithIcon>
 
