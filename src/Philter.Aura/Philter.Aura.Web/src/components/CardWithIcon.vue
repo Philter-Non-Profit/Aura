@@ -3,6 +3,10 @@
         <template v-slot:prepend>
             <v-icon :icon="icon" :color="color"></v-icon>
         </template>
+        <template v-slot:append>
+            <slot name="button">
+            </slot>
+        </template>
         <v-divider />
         <v-card-text class="pt-3">
             <slot>

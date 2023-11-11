@@ -3,23 +3,7 @@
     <c-loader-status :loaders="{ '': [houseList?.$load] }" :progressPlaceholder="false">
       <v-row>
         <v-col v-col cols="12" md="6" lg="5" xl="4" v-if="house">
-          <CardWithIcon :title="house.name!" icon="fas fa-house" color="purple">
-            <div class="pb-3">
-              <v-icon color="purple" icon="fas fa-location-dot" start />
-              <span class="font-weight-bold">Address:</span>
-              {{ house.address }}
-            </div>
-            <div class="pb-3">
-              <v-icon color="purple" icon="fas fa-mobile-screen-button" start />
-              <span class="font-weight-bold">Main Phone:</span>
-              {{ house.mainPhone }}
-            </div>
-            <div class="pb-3">
-              <v-icon color="purple" icon="fas fa-mobile-screen-button" start />
-              <span class="font-weight-bold">Alternate Phone:</span>
-              {{ house.altPhone }}
-            </div>
-          </CardWithIcon>
+          <HouseCard :house="house" color="purple" />
         </v-col>
         <v-col cols="8" v-else>
           <v-row>

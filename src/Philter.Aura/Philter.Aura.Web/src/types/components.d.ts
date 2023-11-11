@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     CreateHouseForm: typeof import('./../components/CreateHouseForm.vue')['default']
     EditHouseForm: typeof import('./../components/EditHouseForm.vue')['default']
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
+    HouseCard: typeof import('./../components/HouseCard.vue')['default']
     RoomCard: typeof import('./../components/RoomCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
