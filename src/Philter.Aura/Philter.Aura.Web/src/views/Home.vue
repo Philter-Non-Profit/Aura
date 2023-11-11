@@ -10,7 +10,7 @@
             <v-col cols="6">
               <CardWithIcon title="Create A Home" icon="fas fa-house" color="grey">
                 <template #default>
-                  <EditHouseForm />
+                  <EditHouseForm @saved="loadHouses()" />
                 </template>
               </CardWithIcon>
             </v-col>
@@ -47,5 +47,9 @@ houseList.value.$pageSize = 100;
 houseList.value.$load();
 
 const house = computed(() => houseList.value?.$items[0]);
+
+function loadHouses() {
+  houseList.value.$load();
+}
 
 </script>
