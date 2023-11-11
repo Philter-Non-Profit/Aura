@@ -124,6 +124,34 @@ export class MessageListViewModel extends ListViewModel<$models.Message, $apiCli
 }
 
 
+export interface MessageToRecipientViewModel extends $models.MessageToRecipient {
+  messageToRecipientId: number | null;
+  messageId: number | null;
+  message: MessageViewModel | null;
+  twilioMessageSid: string | null;
+  recipientId: number | null;
+  recipient: RecipientViewModel | null;
+  senderId: string | null;
+  sender: AuraUserViewModel | null;
+  statusId: $models.MessageStatusEnum | null;
+  dateSent: Date | null;
+}
+export class MessageToRecipientViewModel extends ViewModel<$models.MessageToRecipient, $apiClients.MessageToRecipientApiClient, number> implements $models.MessageToRecipient  {
+  
+  constructor(initialData?: DeepPartial<$models.MessageToRecipient> | null) {
+    super($metadata.MessageToRecipient, new $apiClients.MessageToRecipientApiClient(), initialData)
+  }
+}
+defineProps(MessageToRecipientViewModel, $metadata.MessageToRecipient)
+
+export class MessageToRecipientListViewModel extends ListViewModel<$models.MessageToRecipient, $apiClients.MessageToRecipientApiClient, MessageToRecipientViewModel> {
+  
+  constructor() {
+    super($metadata.MessageToRecipient, new $apiClients.MessageToRecipientApiClient())
+  }
+}
+
+
 export interface RecipientViewModel extends $models.Recipient {
   recipientId: number | null;
   recipientName: string | null;
@@ -174,12 +202,34 @@ export class MessagingServiceViewModel extends ServiceViewModel<typeof $metadata
   public get sendText() {
     const sendText = this.$apiClient.$makeCaller(
       this.$metadata.methods.sendText,
-      (c, to: $models.PhoneNumber | null, messagingServiceId: string | null, message: string | null) => c.sendText(to, messagingServiceId, message),
-      () => ({to: null as $models.PhoneNumber | null, messagingServiceId: null as string | null, message: null as string | null, }),
+      (c, to: $models.PhoneNumber | null, messagingServiceId: string | null, message: $models.Message | null) => c.sendText(to, messagingServiceId, message),
+      () => ({to: null as $models.PhoneNumber | null, messagingServiceId: null as string | null, message: null as $models.Message | null, }),
       (c, args) => c.sendText(args.to, args.messagingServiceId, args.message))
     
     Object.defineProperty(this, 'sendText', {value: sendText});
     return sendText
+  }
+  
+  public get sendTextAt() {
+    const sendTextAt = this.$apiClient.$makeCaller(
+      this.$metadata.methods.sendTextAt,
+      (c, to: $models.PhoneNumber | null, messagingServiceId: string | null, message: $models.Message | null, messageTime: Date | null) => c.sendTextAt(to, messagingServiceId, message, messageTime),
+      () => ({to: null as $models.PhoneNumber | null, messagingServiceId: null as string | null, message: null as $models.Message | null, messageTime: null as Date | null, }),
+      (c, args) => c.sendTextAt(args.to, args.messagingServiceId, args.message, args.messageTime))
+    
+    Object.defineProperty(this, 'sendTextAt', {value: sendTextAt});
+    return sendTextAt
+  }
+  
+  public get updateMessageStatusCallback() {
+    const updateMessageStatusCallback = this.$apiClient.$makeCaller(
+      this.$metadata.methods.updateMessageStatusCallback,
+      (c, result: $models.MessageStatusCallbackDto | null) => c.updateMessageStatusCallback(result),
+      () => ({result: null as $models.MessageStatusCallbackDto | null, }),
+      (c, args) => c.updateMessageStatusCallback(args.result))
+    
+    Object.defineProperty(this, 'updateMessageStatusCallback', {value: updateMessageStatusCallback});
+    return updateMessageStatusCallback
   }
   
   constructor() {
@@ -193,6 +243,7 @@ const viewModelTypeLookup = ViewModel.typeLookup = {
   House: HouseViewModel,
   HouseManager: HouseManagerViewModel,
   Message: MessageViewModel,
+  MessageToRecipient: MessageToRecipientViewModel,
   Recipient: RecipientViewModel,
   Room: RoomViewModel,
 }
@@ -201,6 +252,7 @@ const listViewModelTypeLookup = ListViewModel.typeLookup = {
   House: HouseListViewModel,
   HouseManager: HouseManagerListViewModel,
   Message: MessageListViewModel,
+  MessageToRecipient: MessageToRecipientListViewModel,
   Recipient: RecipientListViewModel,
   Room: RoomListViewModel,
 }

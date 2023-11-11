@@ -41,10 +41,10 @@ namespace Philter.Aura.Web.Api
         /// </summary>
         [HttpPost("SendText")]
         [Authorize]
-        public virtual ItemResult<MessageResourceDtoGen> SendText(
+        public virtual async Task<ItemResult<MessageResourceDtoGen>> SendText(
             [FromForm(Name = "to")] PhoneNumberDtoGen to,
             [FromForm(Name = "messagingServiceId")] string messagingServiceId,
-            [FromForm(Name = "message")] string message)
+            [FromForm(Name = "message")] MessageDtoGen message)
         {
             var _params = new
             {
@@ -62,13 +62,84 @@ namespace Philter.Aura.Web.Api
 
             IncludeTree includeTree = null;
             var _mappingContext = new MappingContext(Context);
-            var _methodResult = Service.SendText(
+            var _methodResult = await Service.SendText(
+                User,
                 _params.to.MapToNew(_mappingContext),
                 _params.messagingServiceId,
-                _params.message
+                _params.message.MapToNew(_mappingContext)
             );
-            var _result = new ItemResult<MessageResourceDtoGen>();
-            _result.Object = Mapper.MapToDto<Twilio.Rest.Api.V2010.Account.MessageResource, MessageResourceDtoGen>(_methodResult, _mappingContext, includeTree);
+            var _result = new ItemResult<MessageResourceDtoGen>(_methodResult);
+            _result.Object = Mapper.MapToDto<Twilio.Rest.Api.V2010.Account.MessageResource, MessageResourceDtoGen>(_methodResult.Object, _mappingContext, includeTree ?? _methodResult.IncludeTree);
+            return _result;
+        }
+
+        /// <summary>
+        /// Method: SendTextAt
+        /// </summary>
+        [HttpPost("SendTextAt")]
+        [Authorize]
+        public virtual async Task<ItemResult<MessageResourceDtoGen>> SendTextAt(
+            [FromServices] Microsoft.AspNetCore.Http.IHttpContextAccessor httpContext,
+            [FromForm(Name = "to")] PhoneNumberDtoGen to,
+            [FromForm(Name = "messagingServiceId")] string messagingServiceId,
+            [FromForm(Name = "message")] MessageDtoGen message,
+            [FromForm(Name = "messageTime")] System.DateTime messageTime)
+        {
+            var _params = new
+            {
+                to = to,
+                messagingServiceId = messagingServiceId,
+                message = message,
+                messageTime = messageTime
+            };
+
+            if (Context.Options.ValidateAttributesForMethods)
+            {
+                var _validationResult = ItemResult.FromParameterValidation(
+                    GeneratedForClassViewModel!.MethodByName("SendTextAt"), _params, HttpContext.RequestServices);
+                if (!_validationResult.WasSuccessful) return new ItemResult<MessageResourceDtoGen>(_validationResult);
+            }
+
+            IncludeTree includeTree = null;
+            var _mappingContext = new MappingContext(Context);
+            var _methodResult = await Service.SendTextAt(
+                User,
+                _params.to.MapToNew(_mappingContext),
+                _params.messagingServiceId,
+                _params.message.MapToNew(_mappingContext),
+                _params.messageTime,
+                httpContext
+            );
+            var _result = new ItemResult<MessageResourceDtoGen>(_methodResult);
+            _result.Object = Mapper.MapToDto<Twilio.Rest.Api.V2010.Account.MessageResource, MessageResourceDtoGen>(_methodResult.Object, _mappingContext, includeTree ?? _methodResult.IncludeTree);
+            return _result;
+        }
+
+        /// <summary>
+        /// Method: UpdateMessageStatusCallback
+        /// </summary>
+        [HttpPost("UpdateMessageStatusCallback")]
+        [Authorize]
+        public virtual ItemResult UpdateMessageStatusCallback(
+            [FromForm(Name = "result")] MessageStatusCallbackDtoDtoGen result)
+        {
+            var _params = new
+            {
+                result = result
+            };
+
+            if (Context.Options.ValidateAttributesForMethods)
+            {
+                var _validationResult = ItemResult.FromParameterValidation(
+                    GeneratedForClassViewModel!.MethodByName("UpdateMessageStatusCallback"), _params, HttpContext.RequestServices);
+                if (!_validationResult.WasSuccessful) return _validationResult;
+            }
+
+            var _mappingContext = new MappingContext(Context);
+            Service.UpdateMessageStatusCallback(
+                _params.result.MapToNew(_mappingContext)
+            );
+            var _result = new ItemResult();
             return _result;
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Philter.Aura.Web.TwilioSvc;
+﻿namespace Philter.Aura.Data.Options;
 
 public class TwilioOptions
 {

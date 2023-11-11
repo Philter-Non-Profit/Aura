@@ -1,6 +1,13 @@
 import * as metadata from './metadata.g'
 import { Model, DataSource, convertToModel, mapToModel } from 'coalesce-vue/lib/model'
 
+export enum MessageStatusEnum {
+  Recieved = 1,
+  Failed = 2,
+  InProgress = 3,
+}
+
+
 export interface AuraUser extends Model<typeof metadata.AuraUser> {
   
   /** A unique user identifying GUID */
@@ -107,6 +114,37 @@ export class Message {
   /** Instantiate a new Message, optionally basing it on the given data. */
   constructor(data?: Partial<Message> | {[k: string]: any}) {
     Object.assign(this, Message.map(data || {}));
+  }
+}
+
+
+export interface MessageToRecipient extends Model<typeof metadata.MessageToRecipient> {
+  messageToRecipientId: number | null
+  messageId: number | null
+  message: Message | null
+  twilioMessageSid: string | null
+  recipientId: number | null
+  recipient: Recipient | null
+  senderId: string | null
+  sender: AuraUser | null
+  statusId: MessageStatusEnum | null
+  dateSent: Date | null
+}
+export class MessageToRecipient {
+  
+  /** Mutates the input object and its descendents into a valid MessageToRecipient implementation. */
+  static convert(data?: Partial<MessageToRecipient>): MessageToRecipient {
+    return convertToModel(data || {}, metadata.MessageToRecipient) 
+  }
+  
+  /** Maps the input object and its descendents to a new, valid MessageToRecipient implementation. */
+  static map(data?: Partial<MessageToRecipient>): MessageToRecipient {
+    return mapToModel(data || {}, metadata.MessageToRecipient) 
+  }
+  
+  /** Instantiate a new MessageToRecipient, optionally basing it on the given data. */
+  constructor(data?: Partial<MessageToRecipient> | {[k: string]: any}) {
+    Object.assign(this, MessageToRecipient.map(data || {}));
   }
 }
 
@@ -220,6 +258,33 @@ export class MessageResource {
   /** Instantiate a new MessageResource, optionally basing it on the given data. */
   constructor(data?: Partial<MessageResource> | {[k: string]: any}) {
     Object.assign(this, MessageResource.map(data || {}));
+  }
+}
+
+
+export interface MessageStatusCallbackDto extends Model<typeof metadata.MessageStatusCallbackDto> {
+  accountSid: string | null
+  from: string | null
+  messageSid: string | null
+  messageStatus: string | null
+  smsSid: string | null
+  smsStatus: string | null
+}
+export class MessageStatusCallbackDto {
+  
+  /** Mutates the input object and its descendents into a valid MessageStatusCallbackDto implementation. */
+  static convert(data?: Partial<MessageStatusCallbackDto>): MessageStatusCallbackDto {
+    return convertToModel(data || {}, metadata.MessageStatusCallbackDto) 
+  }
+  
+  /** Maps the input object and its descendents to a new, valid MessageStatusCallbackDto implementation. */
+  static map(data?: Partial<MessageStatusCallbackDto>): MessageStatusCallbackDto {
+    return mapToModel(data || {}, metadata.MessageStatusCallbackDto) 
+  }
+  
+  /** Instantiate a new MessageStatusCallbackDto, optionally basing it on the given data. */
+  constructor(data?: Partial<MessageStatusCallbackDto> | {[k: string]: any}) {
+    Object.assign(this, MessageStatusCallbackDto.map(data || {}));
   }
 }
 
