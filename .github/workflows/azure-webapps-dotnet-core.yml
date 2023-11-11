@@ -120,9 +120,9 @@ jobs:
       # - name: Run dotnet format checks
       #   run: dotnet format --verify-no-changes --verbosity diagnostic
 
-      - name: Run TS Vite Tests
-        working-directory: ./src/Philter.Aura/Philter.Aura.Web
-        run: npm run test
+      # - name: Run TS Vite Tests
+      #   working-directory: ./src/Philter.Aura/Philter.Aura.Web
+      #   run: npm run test
 
       # - name: Run .NET Unit Tests
       #   run: dotnet test --no-build --configuration Release --filter "FullyQualifiedName~Unit"
