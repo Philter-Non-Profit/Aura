@@ -97,7 +97,7 @@ jobs:
 
       - name: Ensure linter has run
         run: |
-          cd ./StormingTheCastle.Web
+          cd ./src/Philter.Aura/Philter.Aura.Web
           npm run lint
       - name: Ensure Coalesce has run
         run: |

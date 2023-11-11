@@ -3,7 +3,7 @@
     <v-row no-gutters>
       <h1>Coalesce Example</h1>
       <v-spacer />
-      <v-btn large to="/admin/ApplicationUser" color="primary">
+      <v-btn large to="/admin/AuraUser" color="primary">
         Application User Admin Table
       </v-btn>
     </v-row>
@@ -28,11 +28,11 @@
 </template>
 
 <script setup lang="ts">
-import { ApplicationUserViewModel } from "@/viewmodels.g";
+import { AuraUserViewModel } from "@/viewmodels.g";
 
 // The properties on the generated ViewModels are already reactive.
 // ViewModels and ListViewModels don't need to be wrapped in ref/reactive.
-const user = new ApplicationUserViewModel();
+const user = new AuraUserViewModel();
 user.$useAutoSave({
   wait: 500,
   debounce: { maxWait: 3000 },
@@ -41,6 +41,6 @@ user.$useAutoSave({
 useTitle(() => user.name);
 
 (async function onCreated() {
-  await user.$load(1);
+  await user.$load("0D145FC5-D0D0-450F-A729-C87CF0D23045");
 })();
 </script>
