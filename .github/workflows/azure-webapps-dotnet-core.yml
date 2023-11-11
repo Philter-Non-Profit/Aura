@@ -20,17 +20,23 @@
 name: Deploy latest main to philter-aura
 
 env:
-  AZURE_WEBAPP_NAME: philter-aura    # set this to the name of your Azure Web App
+  AZURE_WEBAPP_NAME: philter-aura       # set this to the name of your Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '7'                 # set this to the .NET Core version to use
+  DOTNET_VERSION: '7'                   # set this to the .NET Core version to use
 
 on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
 
+defaults:
+  run:
+    shell: pwsh
+
 permissions:
   contents: read
+
+
 
 jobs:
   build:
@@ -115,14 +121,14 @@ jobs:
 
       - name: dotnet publish
         if: github.event_name != 'pull_request' && github.event_name != 'merge_group'
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/StormingTheCastle
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Philter.Aura
 
       - name: Upload artifact for deployment job
         if: github.event_name != 'pull_request' && github.event_name != 'merge_group'
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/StormingTheCastle        
+          path: ${{env.DOTNET_ROOT}}/Philter.Aura        
 
   deploy:
     permissions:
