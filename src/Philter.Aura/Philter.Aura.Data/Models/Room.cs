@@ -12,7 +12,7 @@ public class Room
 
     [Required]
     [MaxLength(200)]
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; } 
 
     [DataType(DataType.MultilineText)]
     public string? Notes { get; set; }

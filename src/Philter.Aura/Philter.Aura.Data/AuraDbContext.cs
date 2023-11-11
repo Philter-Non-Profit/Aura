@@ -1,3 +1,4 @@
+using System.Linq;
 using Philter.Aura.Data.Models;
 
 namespace Philter.Aura.Data;
@@ -20,6 +21,9 @@ public class AuraDbContext : DbContext
     public DbSet<Room> Rooms => Set<Room>();
 
     public DbSet<HouseManager> HouseManagers => Set<HouseManager>();
+
+    public DbSet<Message> Messages => Set<Message>();   
+    public DbSet<Recipient> Recipients => Set<Recipient>(); 
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

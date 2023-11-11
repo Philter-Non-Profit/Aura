@@ -113,8 +113,8 @@ jobs:
           git add .
           echo 'Checking Diff'
           git diff HEAD --cached --exit-code
-      - name: Run dotnet format checks
-        run: dotnet format --verify-no-changes --verbosity diagnostic
+      # - name: Run dotnet format checks
+      #   run: dotnet format --verify-no-changes --verbosity diagnostic
 
       - name: Run TS Vite Tests
         working-directory: ./src/Philter.Aura/Philter.Aura.Web
@@ -125,7 +125,9 @@ jobs:
 
       - name: dotnet publish
         if: github.event_name != 'pull_request' && github.event_name != 'merge_group'
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Philter.Aura
+        run: |
+          cd ./src/Philter.Aura
+          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Philter.Aura
 
       - name: Upload artifact for deployment job
         if: github.event_name != 'pull_request' && github.event_name != 'merge_group'

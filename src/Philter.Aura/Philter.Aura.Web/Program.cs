@@ -1,3 +1,4 @@
+using System;
 using IntelliTect.Coalesce;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -6,10 +7,17 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Net.Http.Headers;
 using Philter.Aura.Data;
+using Philter.Aura.Data.Services;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -27,6 +35,8 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
+builder.Host.AddTwilioClient();
+
 #region Configure Services
 
 var services = builder.Services;
@@ -41,6 +51,7 @@ services.AddDbContext<AuraDbContext>(options => options
 );
 
 services.AddCoalesce<AuraDbContext>();
+services.AddScoped<IMessagingService, MessagingService>();
 
 services
     .AddMvc()

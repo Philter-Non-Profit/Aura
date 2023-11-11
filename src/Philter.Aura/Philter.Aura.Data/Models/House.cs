@@ -1,5 +1,5 @@
-﻿using IntelliTect.Coalesce.DataAnnotations;
-using IntelliTect.Coalesce.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Philter.Aura.Data.Models;
 

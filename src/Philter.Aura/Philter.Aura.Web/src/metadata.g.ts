@@ -78,6 +78,20 @@ export const AuraUser = domain.types.AuraUser = {
       },
       dontSerialize: true,
     },
+    messages: {
+      name: "messages",
+      displayName: "Messages",
+      type: "collection",
+      itemType: {
+        name: "$collectionItem",
+        displayName: "",
+        role: "value",
+        type: "model",
+        get typeDef() { return (domain.types.Message as ModelType) },
+      },
+      role: "value",
+      dontSerialize: true,
+    },
   },
   methods: {
   },
@@ -271,6 +285,96 @@ export const HouseManager = domain.types.HouseManager = {
   dataSources: {
   },
 }
+export const Message = domain.types.Message = {
+  name: "Message",
+  displayName: "Message",
+  get displayProp() { return this.props.messageId }, 
+  type: "model",
+  controllerRoute: "Message",
+  get keyProp() { return this.props.messageId }, 
+  behaviorFlags: 7 as BehaviorFlags,
+  props: {
+    messageId: {
+      name: "messageId",
+      displayName: "Message Id",
+      type: "number",
+      role: "primaryKey",
+      hidden: 3 as HiddenAreas,
+    },
+    messageBody: {
+      name: "messageBody",
+      displayName: "Message Body",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Message Body is required.",
+        maxLength: val => !val || val.length <= 1600 || "Message Body may not be more than 1600 characters.",
+      }
+    },
+  },
+  methods: {
+  },
+  dataSources: {
+  },
+}
+export const Recipient = domain.types.Recipient = {
+  name: "Recipient",
+  displayName: "Recipient",
+  get displayProp() { return this.props.recipientId }, 
+  type: "model",
+  controllerRoute: "Recipient",
+  get keyProp() { return this.props.recipientId }, 
+  behaviorFlags: 7 as BehaviorFlags,
+  props: {
+    recipientId: {
+      name: "recipientId",
+      displayName: "Recipient Id",
+      type: "number",
+      role: "primaryKey",
+      hidden: 3 as HiddenAreas,
+    },
+    recipientName: {
+      name: "recipientName",
+      displayName: "Recipient Name",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Recipient Name is required.",
+        maxLength: val => !val || val.length <= 150 || "Recipient Name may not be more than 150 characters.",
+      }
+    },
+    recipientPhoneNumber: {
+      name: "recipientPhoneNumber",
+      displayName: "Recipient Phone Number",
+      type: "string",
+      subtype: "tel",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Recipient Phone Number is required.",
+        maxLength: val => !val || val.length <= 150 || "Recipient Phone Number may not be more than 150 characters.",
+        phone: val => !val || /^(\+\s?)?((?<!\+.*)\(\+?\d+([\s\-\.]?\d+)?\)|\d+)([\s\-\.]?(\(\d+([\s\-\.]?\d+)?\)|\d+))*(\s?(x|ext\.?)\s?\d+)?$/.test(val.replace(/\s+/g, '')) || "Recipient Phone Number must be a valid phone number.",
+      }
+    },
+    messages: {
+      name: "messages",
+      displayName: "Messages",
+      type: "collection",
+      itemType: {
+        name: "$collectionItem",
+        displayName: "",
+        role: "value",
+        type: "model",
+        get typeDef() { return (domain.types.Message as ModelType) },
+      },
+      role: "value",
+      dontSerialize: true,
+    },
+  },
+  methods: {
+  },
+  dataSources: {
+  },
+}
 export const Room = domain.types.Room = {
   name: "Room",
   displayName: "Room",
@@ -334,17 +438,259 @@ export const Room = domain.types.Room = {
   dataSources: {
   },
 }
+export const DirectionEnum = domain.types.DirectionEnum = {
+  name: "DirectionEnum",
+  displayName: "Direction Enum",
+  type: "object",
+  props: {
+  },
+}
+export const MessageResource = domain.types.MessageResource = {
+  name: "MessageResource",
+  displayName: "Message Resource",
+  type: "object",
+  props: {
+    body: {
+      name: "body",
+      displayName: "Body",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    numSegments: {
+      name: "numSegments",
+      displayName: "Num Segments",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    direction: {
+      name: "direction",
+      displayName: "Direction",
+      type: "object",
+      get typeDef() { return (domain.types.DirectionEnum as ObjectType) },
+      role: "value",
+      dontSerialize: true,
+    },
+    from: {
+      name: "from",
+      displayName: "From",
+      type: "object",
+      get typeDef() { return (domain.types.PhoneNumber as ObjectType) },
+      role: "value",
+      dontSerialize: true,
+    },
+    to: {
+      name: "to",
+      displayName: "To",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    dateUpdated: {
+      name: "dateUpdated",
+      displayName: "Date Updated",
+      type: "date",
+      dateKind: "datetime",
+      noOffset: true,
+      role: "value",
+      dontSerialize: true,
+    },
+    price: {
+      name: "price",
+      displayName: "Price",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    errorMessage: {
+      name: "errorMessage",
+      displayName: "Error Message",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    uri: {
+      name: "uri",
+      displayName: "Uri",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    accountSid: {
+      name: "accountSid",
+      displayName: "Account Sid",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    numMedia: {
+      name: "numMedia",
+      displayName: "Num Media",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    status: {
+      name: "status",
+      displayName: "Status",
+      type: "object",
+      get typeDef() { return (domain.types.StatusEnum as ObjectType) },
+      role: "value",
+      dontSerialize: true,
+    },
+    messagingServiceSid: {
+      name: "messagingServiceSid",
+      displayName: "Messaging Service Sid",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    sid: {
+      name: "sid",
+      displayName: "Sid",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    dateSent: {
+      name: "dateSent",
+      displayName: "Date Sent",
+      type: "date",
+      dateKind: "datetime",
+      noOffset: true,
+      role: "value",
+      dontSerialize: true,
+    },
+    dateCreated: {
+      name: "dateCreated",
+      displayName: "Date Created",
+      type: "date",
+      dateKind: "datetime",
+      noOffset: true,
+      role: "value",
+      dontSerialize: true,
+    },
+    errorCode: {
+      name: "errorCode",
+      displayName: "Error Code",
+      type: "number",
+      role: "value",
+      dontSerialize: true,
+    },
+    priceUnit: {
+      name: "priceUnit",
+      displayName: "Price Unit",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    apiVersion: {
+      name: "apiVersion",
+      displayName: "Api Version",
+      type: "string",
+      role: "value",
+      dontSerialize: true,
+    },
+    subresourceUris: {
+      name: "subresourceUris",
+      displayName: "Subresource Uris",
+      type: "collection",
+      itemType: {
+        name: "$collectionItem",
+        displayName: "",
+        role: "value",
+        // Type not supported natively by Coalesce - falling back to unknown.
+        type: "unknown",
+      },
+      role: "value",
+      dontSerialize: true,
+    },
+  },
+}
+export const PhoneNumber = domain.types.PhoneNumber = {
+  name: "PhoneNumber",
+  displayName: "Phone Number",
+  type: "object",
+  props: {
+  },
+}
+export const StatusEnum = domain.types.StatusEnum = {
+  name: "StatusEnum",
+  displayName: "Status Enum",
+  type: "object",
+  props: {
+  },
+}
+export const MessagingService = domain.services.MessagingService = {
+  name: "MessagingService",
+  displayName: "Messaging Service",
+  type: "service",
+  controllerRoute: "MessagingService",
+  methods: {
+    sendText: {
+      name: "sendText",
+      displayName: "Send Text",
+      transportType: "item",
+      httpMethod: "POST",
+      params: {
+        to: {
+          name: "to",
+          displayName: "To",
+          type: "object",
+          get typeDef() { return (domain.types.PhoneNumber as ObjectType) },
+          role: "value",
+          rules: {
+            required: val => val != null || "To is required.",
+          }
+        },
+        messagingServiceId: {
+          name: "messagingServiceId",
+          displayName: "Messaging Service Id",
+          type: "string",
+          role: "value",
+          rules: {
+            required: val => (val != null && val !== '') || "Messaging Service Id is required.",
+          }
+        },
+        message: {
+          name: "message",
+          displayName: "Message",
+          type: "string",
+          role: "value",
+          rules: {
+            required: val => (val != null && val !== '') || "Message is required.",
+          }
+        },
+      },
+      return: {
+        name: "$return",
+        displayName: "Result",
+        type: "object",
+        get typeDef() { return (domain.types.MessageResource as ObjectType) },
+        role: "value",
+      },
+    },
+  },
+}
 
 interface AppDomain extends Domain {
   enums: {
   }
   types: {
     AuraUser: typeof AuraUser
+    DirectionEnum: typeof DirectionEnum
     House: typeof House
     HouseManager: typeof HouseManager
+    Message: typeof Message
+    MessageResource: typeof MessageResource
+    PhoneNumber: typeof PhoneNumber
+    Recipient: typeof Recipient
     Room: typeof Room
+    StatusEnum: typeof StatusEnum
   }
   services: {
+    MessagingService: typeof MessagingService
   }
 }
 
