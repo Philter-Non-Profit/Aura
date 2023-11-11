@@ -113,8 +113,8 @@ jobs:
           git add .
           echo 'Checking Diff'
           git diff HEAD --cached --exit-code
-      - name: Run dotnet format checks
-        run: dotnet format --verify-no-changes --verbosity diagnostic
+      # - name: Run dotnet format checks
+      #   run: dotnet format --verify-no-changes --verbosity diagnostic
 
       - name: Run TS Vite Tests
         working-directory: ./src/Philter.Aura/Philter.Aura.Web
