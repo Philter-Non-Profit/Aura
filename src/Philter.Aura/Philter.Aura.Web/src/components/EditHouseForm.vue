@@ -17,7 +17,7 @@
         </v-row>
     </v-form>
 
-
+    <v-divider class="my-3" />
     <div class="d-flex justify-end pt-4">
         <slot name="buttons" />
         <v-btn color="primary" variant="elevated" @click="save()"><v-icon icon="fas fa-save" start /> Save </v-btn>
@@ -32,13 +32,19 @@ const props = defineProps<{
     house?: HouseViewModel;
 }>();
 
-const editHouse = ref<HouseViewModel>();
 const isNew = computed(() => !props.house?.houseId);
 
-if (!isNew) { editHouse.value = props.house; }
-else { editHouse.value = new HouseViewModel(); }
+const editHouse = computed(() => {
+    let house = new HouseViewModel();
+    if (props.house) { house = props.house; }
+    return house;
+});
 
 const form = ref<VForm>();
+
+onMounted(() => {
+    (form.value as VForm)?.validate();
+});
 
 async function save() {
     await editHouse!.value!.$save();

@@ -24,7 +24,7 @@
     <Dialog title="Edit" v-model="editHouse">
         <EditHouseForm :house="house">
             <template #buttons>
-                <v-btn color="primary" variant="elevated"><v-icon icon="fas fa-save" start /> Save </v-btn>
+                <v-btn color="primary" variant="tonal" class="mr-3" @click="editHouse = false">Cancel</v-btn>
             </template>
         </EditHouseForm>
     </Dialog>
