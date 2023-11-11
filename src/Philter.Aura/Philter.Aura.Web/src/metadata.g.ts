@@ -190,6 +190,14 @@ export const House = domain.types.House = {
   methods: {
   },
   dataSources: {
+    houseWithRooms: {
+      type: "dataSource",
+      name: "HouseWithRooms",
+      displayName: "House With Rooms",
+      isDefault: true,
+      props: {
+      },
+    },
   },
 }
 export const HouseManager = domain.types.HouseManager = {

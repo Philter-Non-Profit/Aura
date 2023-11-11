@@ -17,13 +17,6 @@
           <v-list-item-title>Home</v-list-item-title>
         </v-list-item>
 
-        <v-list-item link to="/rooms">
-          <template #prepend>
-            <v-icon>fas fa-people-roof</v-icon>
-          </template>
-          <v-list-item-title>Rooms</v-list-item-title>
-        </v-list-item>
-
         <v-list-item link to="/admin">
           <template #prepend>
             <v-icon>fas fa-cogs</v-icon>

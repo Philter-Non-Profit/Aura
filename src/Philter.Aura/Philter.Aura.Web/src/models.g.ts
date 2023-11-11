@@ -59,6 +59,14 @@ export class House {
     Object.assign(this, House.map(data || {}));
   }
 }
+export namespace House {
+  export namespace DataSources {
+    
+    export class HouseWithRooms implements DataSource<typeof metadata.House.dataSources.houseWithRooms> {
+      readonly $metadata = metadata.House.dataSources.houseWithRooms
+    }
+  }
+}
 
 
 export interface HouseManager extends Model<typeof metadata.HouseManager> {
