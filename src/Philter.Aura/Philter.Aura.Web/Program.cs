@@ -11,27 +11,22 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.Net.Http.Headers;
 using Philter.Aura.Data;
-using Philter.Aura.Data.Models;
-using Philter.Aura.Data.Services;
 using Philter.Aura.Data.Helpers;
+using Philter.Aura.Data.Models;
+using Philter.Aura.Data.Options;
+using Philter.Aura.Data.Services;
 using System;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Twilio;
 using System.Threading.Tasks;
-using System.Linq;
+using Twilio;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
