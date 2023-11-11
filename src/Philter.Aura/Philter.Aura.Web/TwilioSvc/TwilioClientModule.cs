@@ -17,7 +17,7 @@ public static class TwilioClientModule
 
     public static void AddClient(IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<TwilioOptions>(configuration.GetSection(nameof(TwilioOptions)));
+        //services.Configure<TwilioOptions>(configuration.GetSection(nameof(TwilioOptions)));
         services.AddScoped<TwilioHelper>();
     }
 }
