@@ -11,7 +11,7 @@ namespace Philter.Aura.Data.Services;
 
 public class MessagingService : IMessagingService
 {
-    public async Task<ItemResult<MessageResource>> SendText(PhoneNumber to, string messagingServiceId, string message)
+    public async Task<ItemResult<MessageResource>> SendText(string to, string messagingServiceId, string message)
     {
         var result = await MessageResource.CreateAsync(to: to, body: message,
             messagingServiceSid: messagingServiceId);
@@ -24,7 +24,7 @@ public class MessagingService : IMessagingService
         return result;
     }
 
-    public async Task<ItemResult<MessageResource>> SendTextAt(PhoneNumber to, string messagingServiceId, string message, DateTime messageTime)
+    public async Task<ItemResult<MessageResource>> SendTextAt(string to, string messagingServiceId, string message, DateTime messageTime)
     {
         if(DateTime.Now.AddDays(7) < messageTime)
         {

@@ -10,7 +10,7 @@ namespace Philter.Aura.Data.Services;
 public interface IMessagingService
 {
     [Execute(SecurityPermissionLevels.AllowAuthorized)]
-    public Task<ItemResult<MessageResource>> SendText(PhoneNumber to, string messagingServiceId, string message);
+    public Task<ItemResult<MessageResource>> SendText(string to, string messagingServiceId, string message);
     [Execute(SecurityPermissionLevels.AllowAuthorized)]
-    public Task<ItemResult<MessageResource>> SendTextAt(PhoneNumber to, string messagingServiceId, string message, DateTime messageTime);
+    public Task<ItemResult<MessageResource>> SendTextAt(string to, string messagingServiceId, string message, DateTime messageTime);
 }
