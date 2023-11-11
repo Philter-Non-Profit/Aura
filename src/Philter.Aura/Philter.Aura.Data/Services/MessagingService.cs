@@ -1,24 +1,15 @@
 using IntelliTect.Coalesce.Models;
 using IntelliTect.Coalesce.Utilities;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Philter.Aura.Data.Models;
 using Philter.Aura.Data.Options;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Twilio;
-using IntelliTect.Coalesce.Models;
-using System;
-using System.Threading.Tasks;
-using Twilio;
 using Twilio.Rest.Api.V2010.Account;
-using Twilio.Rest.Proxy.V1.Service.Session.Participant;
-using Twilio.Types;
 
 namespace Philter.Aura.Data.Services;
 
@@ -32,7 +23,7 @@ public class MessagingService : IMessagingService
         _twilioOptions = options;
         _dbContext = db;
     }
-    public async Task<ItemResult<MessageResource>> SendText(ClaimsPrincipal claim, PhoneNumber to, string messagingServiceId, Message message)
+    public async Task<ItemResult<MessageResource>> SendText(ClaimsPrincipal claim, string to, string messagingServiceId, Message message)
     {
         var result = await MessageResource.CreateAsync(to: to, body: message.MessageBody,
             messagingServiceSid: messagingServiceId);
@@ -56,7 +47,7 @@ public class MessagingService : IMessagingService
         return result;
     }
 
-    public async Task<ItemResult<MessageResource>> SendTextAt(ClaimsPrincipal claim, PhoneNumber to, string messagingServiceId, Message message, DateTime messageTime, [Inject] IHttpContextAccessor httpContext)
+    public async Task<ItemResult<MessageResource>> SendTextAt(ClaimsPrincipal claim, string to, string messagingServiceId, Message message, DateTime messageTime, [Inject] IHttpContextAccessor httpContext)
     {
         if (DateTime.Now.AddDays(7) < messageTime)
         {

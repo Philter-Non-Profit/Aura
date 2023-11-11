@@ -16,7 +16,7 @@ public class MessageToRecipient
     public long MessageId { get; set; }
     public Message? Message { get; set; }
     [Required]
-    public string TwilioMessageSid {get; set; }
+    public required string TwilioMessageSid {get; set; }
     
     [Required]
     public long RecipientId { get; set; }  

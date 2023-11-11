@@ -2,7 +2,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Philter.Aura.Data.Options;
-using Philter.Aura.Web.TwilioSvc;
 
 public static class TwilioClientModule
 {

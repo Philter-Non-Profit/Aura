@@ -123,8 +123,21 @@ namespace Philter.Aura.Web.Models
         /// </summary>
         public override Philter.Aura.Data.Models.MessageToRecipient MapToNew(IMappingContext context)
         {
-            var entity = new Philter.Aura.Data.Models.MessageToRecipient();
-            MapTo(entity, context);
+            var includes = context.Includes;
+
+            var entity = new Philter.Aura.Data.Models.MessageToRecipient()
+            {
+                TwilioMessageSid = TwilioMessageSid,
+            };
+
+            if (OnUpdate(entity, context)) return entity;
+            if (ShouldMapTo(nameof(MessageToRecipientId))) entity.MessageToRecipientId = (MessageToRecipientId ?? entity.MessageToRecipientId);
+            if (ShouldMapTo(nameof(MessageId))) entity.MessageId = (MessageId ?? entity.MessageId);
+            if (ShouldMapTo(nameof(RecipientId))) entity.RecipientId = (RecipientId ?? entity.RecipientId);
+            if (ShouldMapTo(nameof(SenderId))) entity.SenderId = (SenderId ?? entity.SenderId);
+            if (ShouldMapTo(nameof(StatusId))) entity.StatusId = (StatusId ?? entity.StatusId);
+            if (ShouldMapTo(nameof(DateSent))) entity.DateSent = (DateSent ?? entity.DateSent);
+
             return entity;
         }
     }
