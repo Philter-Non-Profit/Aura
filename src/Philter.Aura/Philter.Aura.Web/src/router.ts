@@ -14,6 +14,11 @@ export default createRouter({
       name: "admin",
       component: () => import("./views/Admin.vue"),
     },
+    {
+      path: "/messages",
+      name: "messages",
+      component: () => import("./views/Messages.vue"),
+    },
 
     // Coalesce admin routes
     {
