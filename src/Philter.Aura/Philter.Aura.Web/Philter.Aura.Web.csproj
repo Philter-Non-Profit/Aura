@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <DotnetCliToolTargetFramework>net7.0</DotnetCliToolTargetFramework>
-    <UserSecretsId>fe4c73df-22d0-4bf9-891e-f82e7ef9b66d</UserSecretsId>
+    <UserSecretsId>63f2796e-6ef5-493d-9c4d-f18ebc236460</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.12" />
     <PackageReference Include="Microsoft.Identity.Web" Version="2.15.1" />
+    <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="2.15.3" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.15.1" />
     <PackageReference Include="Twilio" Version="6.15.0" />
   </ItemGroup>

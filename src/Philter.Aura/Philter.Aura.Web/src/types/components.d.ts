@@ -14,7 +14,6 @@ declare module '@vue/runtime-core' {
     CLoaderStatus: typeof import('coalesce-vue-vuetify3')['CLoaderStatus']
     Dialog: typeof import('./../components/Dialog.vue')['default']
     EditHouseForm: typeof import('./../components/EditHouseForm.vue')['default']
-    HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
     HouseCard: typeof import('./../components/HouseCard.vue')['default']
     RoomCard: typeof import('./../components/RoomCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
