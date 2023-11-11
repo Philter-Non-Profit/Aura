@@ -26,7 +26,7 @@
         </v-col>
         <v-col cols="12"><v-divider /></v-col>
         <span v-if="house.rooms">
-          <v-col cols="12" md="6" lg="4" xl="3" v-for="room in house.rooms" v-bind:key="room.roomId">
+          <v-col cols="12" md="6" lg="4" xl="3" v-for="room in house.rooms" v-bind:key="room.roomId!">
             <RoomCard :room="room" color="purple" />
           </v-col>
         </span>
