@@ -20,7 +20,6 @@ public class MessageToRecipient
     public long RecipientId { get; set; }  
     public Recipient? Recipient { get; set; }
 
-    [Display(Name = "Sender Id", Description = "The Message Sender Id")]
     [Required]
     public Guid SenderId { get; set; }
     public AuraUser? Sender { get; set; }   
