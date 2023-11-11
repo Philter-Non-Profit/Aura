@@ -81,8 +81,18 @@ namespace Philter.Aura.Web.Models
         /// </summary>
         public override Philter.Aura.Data.Models.Room MapToNew(IMappingContext context)
         {
-            var entity = new Philter.Aura.Data.Models.Room();
-            MapTo(entity, context);
+            var includes = context.Includes;
+
+            var entity = new Philter.Aura.Data.Models.Room()
+            {
+                Name = Name,
+            };
+
+            if (OnUpdate(entity, context)) return entity;
+            if (ShouldMapTo(nameof(RoomId))) entity.RoomId = (RoomId ?? entity.RoomId);
+            if (ShouldMapTo(nameof(HouseId))) entity.HouseId = (HouseId ?? entity.HouseId);
+            if (ShouldMapTo(nameof(Notes))) entity.Notes = Notes;
+
             return entity;
         }
     }
