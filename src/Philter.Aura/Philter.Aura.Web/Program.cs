@@ -31,6 +31,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Twilio;
 using Philter.Aura.Web.TwilioSvc;
+using System.Threading.Tasks;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -215,7 +217,6 @@ using (var scope = app.Services.CreateScope())
     using var db = serviceScope.GetRequiredService<AuraDbContext>();
     db.Database.Migrate();
 }
-
 
 var options = app.Services.GetRequiredService<IOptions<TwilioOptions>>();
 TwilioClient.Init(options.Value.AccountSid, options.Value.AuthToken);
