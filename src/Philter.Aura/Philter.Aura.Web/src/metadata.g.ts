@@ -319,9 +319,6 @@ export const Room = domain.types.Room = {
       type: "string",
       subtype: "multiline",
       role: "value",
-      rules: {
-        required: val => (val != null && val !== '') || "Notes is required.",
-      }
     },
   },
   methods: {
