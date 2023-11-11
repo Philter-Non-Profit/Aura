@@ -20,9 +20,10 @@
       }"
     >
       <div class="title py-2">
-        Editing User ID: <c-display :model="user" for="applicationUserId" />
+        Editing User ID: <c-display :model="user" for="auraUserId" />
       </div>
       <c-input :model="user" for="name" />
+      <c-input :model="user" for="email" />
     </c-loader-status>
   </v-container>
 </template>
