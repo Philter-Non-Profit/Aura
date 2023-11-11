@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <c-loader-status :loaders="{ '': [houseList?.$load] }" :progressPlaceholder="false">
+    <c-loader-status :loaders="{ '': [houseList?.$load] }">
       <v-row>
         <v-col cols="12" md="6" lg="5" xl="4" v-if="house">
           <HouseCard :house="house" color="purple" />
@@ -49,7 +49,7 @@ houseList.value.$load();
 const house = computed(() => houseList.value?.$items[0]);
 
 function loadHouses() {
-  houseList.value.$load();
+  houseList.value?.$load();
 }
 
 </script>
