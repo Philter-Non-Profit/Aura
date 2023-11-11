@@ -18,6 +18,16 @@ export class HouseManagerApiClient extends ModelApiClient<$models.HouseManager> 
 }
 
 
+export class MessageApiClient extends ModelApiClient<$models.Message> {
+  constructor() { super($metadata.Message) }
+}
+
+
+export class RecipientApiClient extends ModelApiClient<$models.Recipient> {
+  constructor() { super($metadata.Recipient) }
+}
+
+
 export class RoomApiClient extends ModelApiClient<$models.Room> {
   constructor() { super($metadata.Room) }
 }

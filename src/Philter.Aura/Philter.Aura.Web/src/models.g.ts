@@ -9,6 +9,7 @@ export interface AuraUser extends Model<typeof metadata.AuraUser> {
   email: string | null
   lastLogin: Date | null
   houseManagers: HouseManager[] | null
+  messages: Message[] | null
 }
 export class AuraUser {
   
@@ -83,6 +84,54 @@ export class HouseManager {
   /** Instantiate a new HouseManager, optionally basing it on the given data. */
   constructor(data?: Partial<HouseManager> | {[k: string]: any}) {
     Object.assign(this, HouseManager.map(data || {}));
+  }
+}
+
+
+export interface Message extends Model<typeof metadata.Message> {
+  messageId: number | null
+  messageBody: string | null
+}
+export class Message {
+  
+  /** Mutates the input object and its descendents into a valid Message implementation. */
+  static convert(data?: Partial<Message>): Message {
+    return convertToModel(data || {}, metadata.Message) 
+  }
+  
+  /** Maps the input object and its descendents to a new, valid Message implementation. */
+  static map(data?: Partial<Message>): Message {
+    return mapToModel(data || {}, metadata.Message) 
+  }
+  
+  /** Instantiate a new Message, optionally basing it on the given data. */
+  constructor(data?: Partial<Message> | {[k: string]: any}) {
+    Object.assign(this, Message.map(data || {}));
+  }
+}
+
+
+export interface Recipient extends Model<typeof metadata.Recipient> {
+  recipientId: number | null
+  recipientName: string | null
+  recipientPhoneNumber: string | null
+  messages: Message[] | null
+}
+export class Recipient {
+  
+  /** Mutates the input object and its descendents into a valid Recipient implementation. */
+  static convert(data?: Partial<Recipient>): Recipient {
+    return convertToModel(data || {}, metadata.Recipient) 
+  }
+  
+  /** Maps the input object and its descendents to a new, valid Recipient implementation. */
+  static map(data?: Partial<Recipient>): Recipient {
+    return mapToModel(data || {}, metadata.Recipient) 
+  }
+  
+  /** Instantiate a new Recipient, optionally basing it on the given data. */
+  constructor(data?: Partial<Recipient> | {[k: string]: any}) {
+    Object.assign(this, Recipient.map(data || {}));
   }
 }
 

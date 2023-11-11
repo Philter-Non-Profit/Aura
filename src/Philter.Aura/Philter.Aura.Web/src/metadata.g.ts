@@ -78,6 +78,20 @@ export const AuraUser = domain.types.AuraUser = {
       },
       dontSerialize: true,
     },
+    messages: {
+      name: "messages",
+      displayName: "Messages",
+      type: "collection",
+      itemType: {
+        name: "$collectionItem",
+        displayName: "",
+        role: "value",
+        type: "model",
+        get typeDef() { return (domain.types.Message as ModelType) },
+      },
+      role: "value",
+      dontSerialize: true,
+    },
   },
   methods: {
   },
@@ -255,6 +269,96 @@ export const HouseManager = domain.types.HouseManager = {
       get foreignKey() { return (domain.types.HouseManager as ModelType).props.auraUserId as ForeignKeyProperty },
       get principalKey() { return (domain.types.AuraUser as ModelType).props.auraUserId as PrimaryKeyProperty },
       get inverseNavigation() { return (domain.types.AuraUser as ModelType).props.houseManagers as ModelCollectionNavigationProperty },
+      dontSerialize: true,
+    },
+  },
+  methods: {
+  },
+  dataSources: {
+  },
+}
+export const Message = domain.types.Message = {
+  name: "Message",
+  displayName: "Message",
+  get displayProp() { return this.props.messageId }, 
+  type: "model",
+  controllerRoute: "Message",
+  get keyProp() { return this.props.messageId }, 
+  behaviorFlags: 7 as BehaviorFlags,
+  props: {
+    messageId: {
+      name: "messageId",
+      displayName: "Message Id",
+      type: "number",
+      role: "primaryKey",
+      hidden: 3 as HiddenAreas,
+    },
+    messageBody: {
+      name: "messageBody",
+      displayName: "Message Body",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Message Body is required.",
+        maxLength: val => !val || val.length <= 1600 || "Message Body may not be more than 1600 characters.",
+      }
+    },
+  },
+  methods: {
+  },
+  dataSources: {
+  },
+}
+export const Recipient = domain.types.Recipient = {
+  name: "Recipient",
+  displayName: "Recipient",
+  get displayProp() { return this.props.recipientId }, 
+  type: "model",
+  controllerRoute: "Recipient",
+  get keyProp() { return this.props.recipientId }, 
+  behaviorFlags: 7 as BehaviorFlags,
+  props: {
+    recipientId: {
+      name: "recipientId",
+      displayName: "Recipient Id",
+      type: "number",
+      role: "primaryKey",
+      hidden: 3 as HiddenAreas,
+    },
+    recipientName: {
+      name: "recipientName",
+      displayName: "Recipient Name",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Recipient Name is required.",
+        maxLength: val => !val || val.length <= 150 || "Recipient Name may not be more than 150 characters.",
+      }
+    },
+    recipientPhoneNumber: {
+      name: "recipientPhoneNumber",
+      displayName: "Recipient Phone Number",
+      type: "string",
+      subtype: "tel",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Recipient Phone Number is required.",
+        maxLength: val => !val || val.length <= 150 || "Recipient Phone Number may not be more than 150 characters.",
+        phone: val => !val || /^(\+\s?)?((?<!\+.*)\(\+?\d+([\s\-\.]?\d+)?\)|\d+)([\s\-\.]?(\(\d+([\s\-\.]?\d+)?\)|\d+))*(\s?(x|ext\.?)\s?\d+)?$/.test(val.replace(/\s+/g, '')) || "Recipient Phone Number must be a valid phone number.",
+      }
+    },
+    messages: {
+      name: "messages",
+      displayName: "Messages",
+      type: "collection",
+      itemType: {
+        name: "$collectionItem",
+        displayName: "",
+        role: "value",
+        type: "model",
+        get typeDef() { return (domain.types.Message as ModelType) },
+      },
+      role: "value",
       dontSerialize: true,
     },
   },
@@ -570,8 +674,10 @@ interface AppDomain extends Domain {
     DirectionEnum: typeof DirectionEnum
     House: typeof House
     HouseManager: typeof HouseManager
+    Message: typeof Message
     MessageResource: typeof MessageResource
     PhoneNumber: typeof PhoneNumber
+    Recipient: typeof Recipient
     Room: typeof Room
     StatusEnum: typeof StatusEnum
   }
