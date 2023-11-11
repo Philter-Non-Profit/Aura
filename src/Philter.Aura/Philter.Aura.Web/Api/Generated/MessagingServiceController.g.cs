@@ -42,7 +42,7 @@ namespace Philter.Aura.Web.Api
         [HttpPost("SendText")]
         [Authorize]
         public virtual async Task<ItemResult<MessageResourceDtoGen>> SendText(
-            [FromForm(Name = "to")] PhoneNumberDtoGen to,
+            [FromForm(Name = "to")] string to,
             [FromForm(Name = "messagingServiceId")] string messagingServiceId,
             [FromForm(Name = "message")] string message)
         {
@@ -63,7 +63,7 @@ namespace Philter.Aura.Web.Api
             IncludeTree includeTree = null;
             var _mappingContext = new MappingContext(Context);
             var _methodResult = await Service.SendText(
-                _params.to.MapToNew(_mappingContext),
+                _params.to,
                 _params.messagingServiceId,
                 _params.message
             );
@@ -78,7 +78,7 @@ namespace Philter.Aura.Web.Api
         [HttpPost("SendTextAt")]
         [Authorize]
         public virtual async Task<ItemResult<MessageResourceDtoGen>> SendTextAt(
-            [FromForm(Name = "to")] PhoneNumberDtoGen to,
+            [FromForm(Name = "to")] string to,
             [FromForm(Name = "messagingServiceId")] string messagingServiceId,
             [FromForm(Name = "message")] string message,
             [FromForm(Name = "messageTime")] System.DateTime messageTime)
@@ -101,7 +101,7 @@ namespace Philter.Aura.Web.Api
             IncludeTree includeTree = null;
             var _mappingContext = new MappingContext(Context);
             var _methodResult = await Service.SendTextAt(
-                _params.to.MapToNew(_mappingContext),
+                _params.to,
                 _params.messagingServiceId,
                 _params.message,
                 _params.messageTime

@@ -45,17 +45,6 @@ export class MessagingServiceApiClient extends ServiceApiClient<typeof $metadata
     return this.$invoke($method, $params, $config)
   }
   
-  public sendTextAt(to: $models.PhoneNumber | null, messagingServiceId: string | null, message: string | null, messageTime: Date | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<$models.MessageResource>> {
-    const $method = this.$metadata.methods.sendTextAt
-    const $params =  {
-      to,
-      messagingServiceId,
-      message,
-      messageTime,
-    }
-    return this.$invoke($method, $params, $config)
-  }
-  
 }
 
 
