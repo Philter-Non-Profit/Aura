@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
+using Microsoft.Graph.ExternalConnectors;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.Net.Http.Headers;
@@ -62,6 +63,7 @@ services.AddDbContext<AuraDbContext>(options => options
 
 services.AddCoalesce<AuraDbContext>();
 services.AddScoped<IMessagingService, MessagingService>();
+services.Configure<TwilioOptions>(builder.Configuration.GetSection(nameof(TwilioOptions)));
 
 services
     .AddMvc()
