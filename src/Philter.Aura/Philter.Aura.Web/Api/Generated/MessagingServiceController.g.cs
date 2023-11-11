@@ -1,6 +1,7 @@
 
 using IntelliTect.Coalesce;
 using IntelliTect.Coalesce.Api;
+using IntelliTect.Coalesce.Api.Behaviors;
 using IntelliTect.Coalesce.Api.Controllers;
 using IntelliTect.Coalesce.Api.DataSources;
 using IntelliTect.Coalesce.Mapping;
@@ -60,7 +61,7 @@ namespace Philter.Aura.Web.Api
             }
 
             IncludeTree includeTree = null;
-            var _mappingContext = new MappingContext(User);
+            var _mappingContext = new MappingContext(Context);
             var _methodResult = Service.SendText(
                 _params.to.MapToNew(_mappingContext),
                 _params.messagingServiceId,
