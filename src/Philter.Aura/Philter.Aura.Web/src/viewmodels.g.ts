@@ -182,6 +182,17 @@ export class MessagingServiceViewModel extends ServiceViewModel<typeof $metadata
     return sendText
   }
   
+  public get sendTextAt() {
+    const sendTextAt = this.$apiClient.$makeCaller(
+      this.$metadata.methods.sendTextAt,
+      (c, to: $models.PhoneNumber | null, messagingServiceId: string | null, message: string | null, messageTime: Date | null) => c.sendTextAt(to, messagingServiceId, message, messageTime),
+      () => ({to: null as $models.PhoneNumber | null, messagingServiceId: null as string | null, message: null as string | null, messageTime: null as Date | null, }),
+      (c, args) => c.sendTextAt(args.to, args.messagingServiceId, args.message, args.messageTime))
+    
+    Object.defineProperty(this, 'sendTextAt', {value: sendTextAt});
+    return sendTextAt
+  }
+  
   constructor() {
     super($metadata.MessagingService, new $apiClients.MessagingServiceApiClient())
   }
