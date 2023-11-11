@@ -1,8 +1,7 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Philter.Aura.Data.Models;
-
 
 public class House
 {
@@ -33,5 +32,16 @@ public class House
 
     [InverseProperty(nameof(Room.House))]
     public ICollection<Room> Rooms { get; set; } = new List<Room>();
+
+    [DefaultDataSource]
+    public class HouseWithRooms : StandardDataSource<House, AuraDbContext>
+    {
+        public HouseWithRooms(CrudContext<AuraDbContext> context) : base(context) { }
+
+        public override IQueryable<House> GetQuery(IDataSourceParameters parameters)
+        {
+            return Db.Houses.Include(h => h.Rooms);
+        }
+    }
 }
 

@@ -10,7 +10,7 @@ export enum MessageStatusEnum {
 
 export interface AuraUser extends Model<typeof metadata.AuraUser> {
   
-  /** A unique user identifying GUID */
+  /** Azure Object Id */
   auraUserId: string | null
   name: string | null
   email: string | null
@@ -65,6 +65,14 @@ export class House {
   /** Instantiate a new House, optionally basing it on the given data. */
   constructor(data?: Partial<House> | {[k: string]: any}) {
     Object.assign(this, House.map(data || {}));
+  }
+}
+export namespace House {
+  export namespace DataSources {
+    
+    export class HouseWithRooms implements DataSource<typeof metadata.House.dataSources.houseWithRooms> {
+      readonly $metadata = metadata.House.dataSources.houseWithRooms
+    }
   }
 }
 

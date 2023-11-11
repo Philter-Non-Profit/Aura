@@ -10,11 +10,6 @@ export default createRouter({
       component: () => import("./views/Home.vue"),
     },
     {
-      path: "/coalesce-example",
-      name: "coalesce-example",
-      component: () => import("./views/CoalesceExample.vue"),
-    },
-    {
       path: "/admin",
       name: "admin",
       component: () => import("./views/Admin.vue"),
