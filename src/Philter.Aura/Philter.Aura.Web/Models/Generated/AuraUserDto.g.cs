@@ -75,10 +75,15 @@ namespace Philter.Aura.Web.Models
             }
 
             var propValMessages = obj.Messages;
-            if (propValMessages != null)
+            if (propValMessages != null && (tree == null || tree[nameof(this.Messages)] != null))
             {
                 this.Messages = propValMessages
+                    .OrderBy(f => f.MessageId)
                     .Select(f => f.MapToDto<Philter.Aura.Data.Models.Message, MessageDtoGen>(context, tree?[nameof(this.Messages)])).ToList();
+            }
+            else if (propValMessages == null && tree?[nameof(this.Messages)] != null)
+            {
+                this.Messages = new MessageDtoGen[0];
             }
 
         }

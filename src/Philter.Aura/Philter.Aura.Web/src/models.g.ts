@@ -88,6 +88,54 @@ export class HouseManager {
 }
 
 
+export interface Message extends Model<typeof metadata.Message> {
+  messageId: number | null
+  messageBody: string | null
+}
+export class Message {
+  
+  /** Mutates the input object and its descendents into a valid Message implementation. */
+  static convert(data?: Partial<Message>): Message {
+    return convertToModel(data || {}, metadata.Message) 
+  }
+  
+  /** Maps the input object and its descendents to a new, valid Message implementation. */
+  static map(data?: Partial<Message>): Message {
+    return mapToModel(data || {}, metadata.Message) 
+  }
+  
+  /** Instantiate a new Message, optionally basing it on the given data. */
+  constructor(data?: Partial<Message> | {[k: string]: any}) {
+    Object.assign(this, Message.map(data || {}));
+  }
+}
+
+
+export interface Recipient extends Model<typeof metadata.Recipient> {
+  recipientId: number | null
+  recipientName: string | null
+  recipientPhoneNumber: string | null
+  messages: Message[] | null
+}
+export class Recipient {
+  
+  /** Mutates the input object and its descendents into a valid Recipient implementation. */
+  static convert(data?: Partial<Recipient>): Recipient {
+    return convertToModel(data || {}, metadata.Recipient) 
+  }
+  
+  /** Maps the input object and its descendents to a new, valid Recipient implementation. */
+  static map(data?: Partial<Recipient>): Recipient {
+    return mapToModel(data || {}, metadata.Recipient) 
+  }
+  
+  /** Instantiate a new Recipient, optionally basing it on the given data. */
+  constructor(data?: Partial<Recipient> | {[k: string]: any}) {
+    Object.assign(this, Recipient.map(data || {}));
+  }
+}
+
+
 export interface Room extends Model<typeof metadata.Room> {
   roomId: number | null
   houseId: number | null
@@ -214,29 +262,6 @@ export class StatusEnum {
   /** Instantiate a new StatusEnum, optionally basing it on the given data. */
   constructor(data?: Partial<StatusEnum> | {[k: string]: any}) {
     Object.assign(this, StatusEnum.map(data || {}));
-  }
-}
-
-
-export interface Message extends Model<typeof metadata.Message> {
-  messageId: number | null
-  messageBody: string | null
-}
-export class Message {
-  
-  /** Mutates the input object and its descendents into a valid Message implementation. */
-  static convert(data?: Partial<Message>): Message {
-    return convertToModel(data || {}, metadata.Message) 
-  }
-  
-  /** Maps the input object and its descendents to a new, valid Message implementation. */
-  static map(data?: Partial<Message>): Message {
-    return mapToModel(data || {}, metadata.Message) 
-  }
-  
-  /** Instantiate a new Message, optionally basing it on the given data. */
-  constructor(data?: Partial<Message> | {[k: string]: any}) {
-    Object.assign(this, Message.map(data || {}));
   }
 }
 

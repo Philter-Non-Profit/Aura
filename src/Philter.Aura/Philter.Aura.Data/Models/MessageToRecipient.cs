@@ -13,13 +13,16 @@ public class MessageToRecipient
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
     public long MessageToRecipientId { get; set; } 
-    [Required]
     public long MessageId { get; set; }
+    public Message? Message { get; set; }   
+    
     [Required]
     public long RecipientId { get; set; }  
     public Recipient? Recipient { get; set; }
+
     [Display(Name = "Sender Id", Description = "The Message Sender Id")]
-    public Guid AuraUserId { get; set; }
+    [Required]
+    public Guid SenderId { get; set; }
     public AuraUser? Sender { get; set; }   
     public MessageStatusEnum StatusId { get; set; }
     public DateTime DateSent { get; set; }  
