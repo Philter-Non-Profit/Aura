@@ -17,11 +17,11 @@
           <v-list-item-title>Home</v-list-item-title>
         </v-list-item>
 
-        <v-list-item link to="/coalesce-example">
+        <v-list-item link to="/rooms">
           <template #prepend>
-            <v-icon>fas fa-palette</v-icon>
+            <v-icon>fas fa-people-roof</v-icon>
           </template>
-          <v-list-item-title>Custom Page Example</v-list-item-title>
+          <v-list-item-title>Rooms</v-list-item-title>
         </v-list-item>
 
         <v-list-item link to="/admin">
