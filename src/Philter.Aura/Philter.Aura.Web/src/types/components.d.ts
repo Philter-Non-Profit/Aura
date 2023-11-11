@@ -10,13 +10,17 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     CardWithIcon: typeof import('./../components/CardWithIcon.vue')['default']
+    CInput: typeof import('coalesce-vue-vuetify3')['CInput']
     CLoaderStatus: typeof import('coalesce-vue-vuetify3')['CLoaderStatus']
+    CreateHouseForm: typeof import('./../components/CreateHouseForm.vue')['default']
+    EditHouseForm: typeof import('./../components/EditHouseForm.vue')['default']
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     VApp: typeof import('vuetify/components')['VApp']
     VAppBar: typeof import('vuetify/components')['VAppBar']
     VAppBarNavIcon: typeof import('vuetify/components')['VAppBarNavIcon']
+    VBtn: typeof import('vuetify/components')['VBtn']
     VCard: typeof import('vuetify/components')['VCard']
     VCardText: typeof import('vuetify/components')['VCardText']
     VCardTitle: typeof import('vuetify/components')['VCardTitle']

@@ -1,9 +1,9 @@
 <template>
-    <v-card class="mx-auto" max-width="344" :title="title">
+    <v-card :title="title">
         <template v-slot:prepend>
             <v-icon :icon="icon" :color="color"></v-icon>
         </template>
-        <v-card-text>
+        <v-card-text class="pt-3">
             <slot>
             </slot>
         </v-card-text>

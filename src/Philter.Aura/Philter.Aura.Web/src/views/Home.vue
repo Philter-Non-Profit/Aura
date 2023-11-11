@@ -8,12 +8,16 @@
           <div>Alternate Phone: {{ house.altPhone }}</div>
         </CardWithIcon>
       </div>
-      <div v-else class="pa-3">
-        <CardWithIcon title="No Home" icon="fas fa-house" color="grey">
-          <template>
-            <div>Create A new home</div>
-          </template>
-        </CardWithIcon>
+      <div v-else>
+        <v-row>
+          <v-col cols="8">
+            <CardWithIcon title="Create A Home" icon="fas fa-house" color="grey">
+              <template #default>
+                <EditHouseForm />
+              </template>
+            </CardWithIcon>
+          </v-col>
+        </v-row>
       </div>
     </c-loader-status>
   </v-container>
@@ -28,6 +32,6 @@ const houseList = new HouseListViewModel();
 houseList.$pageSize = 100;
 houseList.$load();
 
-const house = houseList?.$items.at(0);
+const house = houseList?.$items[0];
 
 </script>
