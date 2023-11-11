@@ -3,6 +3,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <DotnetCliToolTargetFramework>net7.0</DotnetCliToolTargetFramework>
     <UserSecretsId>63f2796e-6ef5-493d-9c4d-f18ebc236460</UserSecretsId>
+    <UserSecretsId>abbcd733-f9d2-4cfe-bab3-3601214d60e2</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
