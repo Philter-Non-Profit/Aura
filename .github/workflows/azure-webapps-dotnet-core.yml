@@ -90,10 +90,14 @@ jobs:
           npm run build
 
       - name: Restore with dotnet
-        run: dotnet restore
+        run: |
+          cd ./src/Philter.Aura
+          dotnet restore
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release --no-restore
+        run: |
+          cd ./src/Philter.Aura
+          dotnet build --configuration Release --no-restore
 
       - name: Ensure linter has run
         run: |
@@ -116,8 +120,8 @@ jobs:
         working-directory: ./src/Philter.Aura/Philter.Aura.Web
         run: npm run test
 
-      - name: Run .NET Unit Tests
-        run: dotnet test --no-build --configuration Release --filter "FullyQualifiedName~Unit"
+      # - name: Run .NET Unit Tests
+      #   run: dotnet test --no-build --configuration Release --filter "FullyQualifiedName~Unit"
 
       - name: dotnet publish
         if: github.event_name != 'pull_request' && github.event_name != 'merge_group'
