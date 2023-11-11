@@ -1,4 +1,6 @@
-﻿namespace Philter.Aura.Data.Models;
+﻿using System;
+
+namespace Philter.Aura.Data.Models;
 public enum MessageStatusEnum
 {
     Recieved = 1,

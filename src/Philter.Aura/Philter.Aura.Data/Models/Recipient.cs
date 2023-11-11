@@ -1,4 +1,6 @@
-﻿namespace Philter.Aura.Data.Models;
+﻿using System.Collections.Generic;
+
+namespace Philter.Aura.Data.Models;
 public class Recipient
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
