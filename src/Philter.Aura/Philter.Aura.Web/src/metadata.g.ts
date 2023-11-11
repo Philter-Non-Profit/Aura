@@ -634,14 +634,13 @@ export const MessagingService = domain.services.MessagingService = {
       transportType: "item",
       httpMethod: "POST",
       params: {
-        to: {
-          name: "to",
-          displayName: "To",
-          type: "object",
-          get typeDef() { return (domain.types.PhoneNumber as ObjectType) },
+        phoneNumber: {
+          name: "phoneNumber",
+          displayName: "Phone Number",
+          type: "string",
           role: "value",
           rules: {
-            required: val => val != null || "To is required.",
+            required: val => (val != null && val !== '') || "Phone Number is required.",
           }
         },
         messagingServiceId: {

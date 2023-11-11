@@ -48,7 +48,7 @@ namespace Philter.Aura.Web.Api
         {
             var _params = new
             {
-                to = to,
+                phoneNumber = phoneNumber,
                 messagingServiceId = messagingServiceId,
                 message = message
             };
