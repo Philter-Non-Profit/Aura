@@ -126,6 +126,25 @@ export class RoomListViewModel extends ListViewModel<$models.Room, $apiClients.R
 }
 
 
+export class MessagingServiceViewModel extends ServiceViewModel<typeof $metadata.MessagingService, $apiClients.MessagingServiceApiClient> {
+  
+  public get sendText() {
+    const sendText = this.$apiClient.$makeCaller(
+      this.$metadata.methods.sendText,
+      (c, to: $models.PhoneNumber | null, messagingServiceId: string | null, message: string | null) => c.sendText(to, messagingServiceId, message),
+      () => ({to: null as $models.PhoneNumber | null, messagingServiceId: null as string | null, message: null as string | null, }),
+      (c, args) => c.sendText(args.to, args.messagingServiceId, args.message))
+    
+    Object.defineProperty(this, 'sendText', {value: sendText});
+    return sendText
+  }
+  
+  constructor() {
+    super($metadata.MessagingService, new $apiClients.MessagingServiceApiClient())
+  }
+}
+
+
 const viewModelTypeLookup = ViewModel.typeLookup = {
   AuraUser: AuraUserViewModel,
   House: HouseViewModel,
@@ -139,5 +158,6 @@ const listViewModelTypeLookup = ListViewModel.typeLookup = {
   Room: RoomListViewModel,
 }
 const serviceViewModelTypeLookup = ServiceViewModel.typeLookup = {
+  MessagingService: MessagingServiceViewModel,
 }
 
