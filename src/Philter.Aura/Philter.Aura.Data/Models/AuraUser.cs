@@ -7,9 +7,8 @@ namespace Philter.Aura.Data.Models;
 
 public class AuraUser
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
-    [Display(Name = "User ID", Description = "A unique user identifying GUID")]
+    [Display(Name = "User ID", Description = "Azure Object Id")]
     public Guid AuraUserId { get; set; }
 
     [Required]

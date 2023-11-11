@@ -19,7 +19,7 @@ export const AuraUser = domain.types.AuraUser = {
     auraUserId: {
       name: "auraUserId",
       displayName: "User ID",
-      description: "A unique user identifying GUID",
+      description: "Azure Object Id",
       type: "string",
       role: "primaryKey",
       hidden: 3 as HiddenAreas,

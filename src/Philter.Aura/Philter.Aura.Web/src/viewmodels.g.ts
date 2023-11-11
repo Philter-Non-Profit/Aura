@@ -5,7 +5,7 @@ import { ViewModel, ListViewModel, ServiceViewModel, DeepPartial, defineProps } 
 
 export interface AuraUserViewModel extends $models.AuraUser {
   
-  /** A unique user identifying GUID */
+  /** Azure Object Id */
   auraUserId: string | null;
   name: string | null;
   email: string | null;
