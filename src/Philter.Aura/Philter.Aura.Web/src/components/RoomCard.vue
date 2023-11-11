@@ -1,9 +1,20 @@
 <template>
     <CardWithIcon :title="room.name!" icon="fas fa-people-roof" :color="color">
+        <template #button>
+            <v-btn :color="color" density="comfortable" icon="fas fa-pencil" variant="tonal" @click="addRoom = !addRoom" />
+        </template>
         <template #default>
             {{ room.notes }}
         </template>
     </CardWithIcon>
+
+    <Dialog title="Edit Room" v-model="addRoom">
+        <EditRoomForm @saved="addRoom = false" :room="room">
+            <template #buttons>
+                <v-btn color="primary" variant="tonal" class="mr-3" @click="addRoom = false">Cancel</v-btn>
+            </template>
+        </EditRoomForm>
+    </Dialog>
 </template>
 
 <script lang="ts" setup>
@@ -17,4 +28,7 @@ withDefaults(
         color: "primary",
     }
 );
+
+const addRoom = ref(false);
+
 </script>

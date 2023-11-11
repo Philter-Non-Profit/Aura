@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <c-loader-status :loaders="{ '': [houseList?.$load] }">
+    <c-loader-status :loaders="{ 'no-loading-content': [houseList?.$load] }" :progressPlaceholder="false">
       <v-row>
         <v-col cols="12" md="6" lg="5" xl="4" v-if="house">
           <HouseCard :house="house" color="purple" />
@@ -22,18 +22,26 @@
           <div class="text-h6 mr-2">
             Rooms
           </div>
-          <v-btn color="purple" density="comfortable" icon="fas fa-plus" variant="tonal" />
+          <v-btn color="purple" density="comfortable" icon="fas fa-plus" variant="tonal" @click="addRoom = !addRoom" />
         </v-col>
         <v-col cols="12"><v-divider /></v-col>
-        <v-col cols="12" md="6" lg="4" xl="3" v-for="room in house.rooms" v-if="house.rooms">
+        <v-col cols="12" md="6" lg="4" xl="3" v-for="room in house.rooms" v-bind:key="room.roomId!">
           <RoomCard :room="room" color="purple" />
         </v-col>
-        <v-col cols="12" class="font-italic text-medium-emphasis" v-else>
+        <v-col cols="12" class="font-italic text-medium-emphasis" v-if="house.rooms?.length == 0">
           No rooms
         </v-col>
       </v-row>
     </c-loader-status>
   </v-container>
+
+  <Dialog title="Create Room" v-model="addRoom">
+    <EditRoomForm @saved="addRoom = false" :house="house">
+      <template #buttons>
+        <v-btn color="primary" variant="tonal" class="mr-3" @click="addRoom = false">Cancel</v-btn>
+      </template>
+    </EditRoomForm>
+  </Dialog>
 </template>
 
 <script setup lang="ts">
@@ -45,6 +53,8 @@ const houseList = ref<HouseListViewModel>();
 houseList.value = new HouseListViewModel();
 houseList.value.$pageSize = 100;
 houseList.value.$load();
+
+const addRoom = ref(false);
 
 const house = computed(() => houseList.value?.$items[0]);
 
