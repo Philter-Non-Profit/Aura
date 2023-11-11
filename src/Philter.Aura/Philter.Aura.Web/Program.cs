@@ -15,11 +15,15 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.Net.Http.Headers;
 using Philter.Aura.Data;
+using Philter.Aura.Data.Models;
 using Philter.Aura.Data.Services;
+using Philter.Aura.Data.Helpers;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
