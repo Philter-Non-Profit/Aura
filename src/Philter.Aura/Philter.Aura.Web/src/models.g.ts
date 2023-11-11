@@ -9,6 +9,7 @@ export interface AuraUser extends Model<typeof metadata.AuraUser> {
   email: string | null
   lastLogin: Date | null
   houseManagers: HouseManager[] | null
+  messages: Message[] | null
 }
 export class AuraUser {
   
@@ -213,6 +214,29 @@ export class StatusEnum {
   /** Instantiate a new StatusEnum, optionally basing it on the given data. */
   constructor(data?: Partial<StatusEnum> | {[k: string]: any}) {
     Object.assign(this, StatusEnum.map(data || {}));
+  }
+}
+
+
+export interface Message extends Model<typeof metadata.Message> {
+  messageId: number | null
+  messageBody: string | null
+}
+export class Message {
+  
+  /** Mutates the input object and its descendents into a valid Message implementation. */
+  static convert(data?: Partial<Message>): Message {
+    return convertToModel(data || {}, metadata.Message) 
+  }
+  
+  /** Maps the input object and its descendents to a new, valid Message implementation. */
+  static map(data?: Partial<Message>): Message {
+    return mapToModel(data || {}, metadata.Message) 
+  }
+  
+  /** Instantiate a new Message, optionally basing it on the given data. */
+  constructor(data?: Partial<Message> | {[k: string]: any}) {
+    Object.assign(this, Message.map(data || {}));
   }
 }
 

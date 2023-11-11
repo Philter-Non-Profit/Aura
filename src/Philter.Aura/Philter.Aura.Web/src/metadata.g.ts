@@ -78,6 +78,20 @@ export const AuraUser = domain.types.AuraUser = {
       },
       dontSerialize: true,
     },
+    messages: {
+      name: "messages",
+      displayName: "Messages",
+      type: "collection",
+      itemType: {
+        name: "$collectionItem",
+        displayName: "",
+        role: "value",
+        type: "object",
+        get typeDef() { return (domain.types.Message as ObjectType) },
+      },
+      role: "value",
+      dontSerialize: true,
+    },
   },
   methods: {
   },
@@ -561,6 +575,29 @@ export const MessagingService = domain.services.MessagingService = {
     },
   },
 }
+export const Message = domain.types.Message = {
+  name: "Message",
+  displayName: "Message",
+  type: "object",
+  props: {
+    messageId: {
+      name: "messageId",
+      displayName: "Message Id",
+      type: "number",
+      role: "value",
+    },
+    messageBody: {
+      name: "messageBody",
+      displayName: "Message Body",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Message Body is required.",
+        maxLength: val => !val || val.length <= 1600 || "Message Body may not be more than 1600 characters.",
+      }
+    },
+  },
+}
 
 interface AppDomain extends Domain {
   enums: {
@@ -572,6 +609,7 @@ interface AppDomain extends Domain {
     HouseManager: typeof HouseManager
     MessageResource: typeof MessageResource
     PhoneNumber: typeof PhoneNumber
+    Message: typeof Message
     Room: typeof Room
     StatusEnum: typeof StatusEnum
   }

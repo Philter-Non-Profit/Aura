@@ -11,6 +11,7 @@ export interface AuraUserViewModel extends $models.AuraUser {
   email: string | null;
   lastLogin: Date | null;
   houseManagers: HouseManagerViewModel[] | null;
+  messages: $models.Message[] | null;
 }
 export class AuraUserViewModel extends ViewModel<$models.AuraUser, $apiClients.AuraUserApiClient, string> implements $models.AuraUser  {
   

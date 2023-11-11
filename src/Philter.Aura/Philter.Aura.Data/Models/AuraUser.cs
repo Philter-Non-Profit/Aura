@@ -26,6 +26,8 @@ public class AuraUser
     [ManyToMany("Houses", FarNavigationProperty = nameof(HouseManager.House))]
     public ICollection<HouseManager> HouseManagers { get; set; } = new List<HouseManager>();
 
+    public ICollection<Message> Messages { get; set; } = new List<Message>();
+
 
 
 #nullable restore
