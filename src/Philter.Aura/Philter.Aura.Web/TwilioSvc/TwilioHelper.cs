@@ -1,10 +1,7 @@
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using Twilio;
-using Twilio.Rest.Api.V2010.Account;
-using Twilio.Types;
 
-namespace Philter.Aura.Web.Twilio;
+namespace Philter.Aura.Web.TwilioSvc;
 
 public sealed class TwilioHelper
 {

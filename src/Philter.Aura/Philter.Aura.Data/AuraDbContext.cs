@@ -1,3 +1,4 @@
+using System.Linq;
 using Philter.Aura.Data.Models;
 
 namespace Philter.Aura.Data;

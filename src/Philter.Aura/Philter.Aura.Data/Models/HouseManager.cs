@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
 
 namespace Philter.Aura.Data.Models;
 

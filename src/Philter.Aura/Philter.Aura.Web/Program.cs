@@ -1,3 +1,4 @@
+using System;
 using IntelliTect.Coalesce;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -7,11 +8,16 @@ using Microsoft.Extensions.Logging.Console;
 using Microsoft.Net.Http.Headers;
 using Philter.Aura.Data;
 using Philter.Aura.Data.Services;
-using Philter.Aura.Web.Twilio;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {

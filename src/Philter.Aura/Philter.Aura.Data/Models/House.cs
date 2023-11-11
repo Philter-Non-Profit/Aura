@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace Philter.Aura.Data.Models;
 
 
