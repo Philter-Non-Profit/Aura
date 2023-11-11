@@ -1,26 +1,25 @@
-using System;
 using IntelliTect.Coalesce;
 using IntelliTect.Coalesce.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.Net.Http.Headers;
 using Philter.Aura.Data;
 using Philter.Aura.Data.Services;
-using System.Security.Claims;
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -88,7 +87,7 @@ services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         {
             // Create a new app user for the logging in user
             AuraDbContext db = trc.HttpContext.RequestServices.GetRequiredService<AuraDbContext>();
-            
+
             if (Guid.TryParse(trc.Principal?.Identities.FirstOrDefault()?.Claims
                 .FirstOrDefault(claim => claim.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value, out Guid azureObjectId))
             {
