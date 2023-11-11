@@ -3,7 +3,7 @@ import { Model, DataSource, convertToModel, mapToModel } from 'coalesce-vue/lib/
 
 export interface AuraUser extends Model<typeof metadata.AuraUser> {
   
-  /** A unique user identifying GUID */
+  /** Azure Object Id */
   auraUserId: string | null
   name: string | null
   email: string | null

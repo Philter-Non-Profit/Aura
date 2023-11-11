@@ -19,7 +19,7 @@ export const AuraUser = domain.types.AuraUser = {
     auraUserId: {
       name: "auraUserId",
       displayName: "User ID",
-      description: "A unique user identifying GUID",
+      description: "Azure Object Id",
       type: "string",
       role: "primaryKey",
       hidden: 3 as HiddenAreas,
@@ -637,11 +637,10 @@ export const MessagingService = domain.services.MessagingService = {
         to: {
           name: "to",
           displayName: "To",
-          type: "object",
-          get typeDef() { return (domain.types.PhoneNumber as ObjectType) },
+          type: "string",
           role: "value",
           rules: {
-            required: val => val != null || "To is required.",
+            required: val => (val != null && val !== '') || "To is required.",
           }
         },
         messagingServiceId: {
@@ -680,11 +679,10 @@ export const MessagingService = domain.services.MessagingService = {
         to: {
           name: "to",
           displayName: "To",
-          type: "object",
-          get typeDef() { return (domain.types.PhoneNumber as ObjectType) },
+          type: "string",
           role: "value",
           rules: {
-            required: val => val != null || "To is required.",
+            required: val => (val != null && val !== '') || "To is required.",
           }
         },
         messagingServiceId: {

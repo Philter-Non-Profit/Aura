@@ -45,21 +45,21 @@
 </template>
 
 <script setup lang="ts">
-import { HouseListViewModel } from "@/viewmodels.g";
+  import { HouseListViewModel } from "@/viewmodels.g";
 
-useTitle("Home");
+  useTitle("Home");
 
-const houseList = ref<HouseListViewModel>();
-houseList.value = new HouseListViewModel();
-houseList.value.$pageSize = 100;
-houseList.value.$load();
+  const houseList = ref<HouseListViewModel>();
+  houseList.value = new HouseListViewModel();
+  houseList.value.$pageSize = 100;
+  houseList.value.$load();
 
 const addRoom = ref(false);
 
 const house = computed(() => houseList.value?.$items[0]);
 
-function loadHouses() {
-  houseList.value?.$load();
-}
+  function loadHouses() {
+    houseList.value?.$load();
+  }
 
 </script>

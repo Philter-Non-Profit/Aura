@@ -5,7 +5,7 @@ import { ViewModel, ListViewModel, ServiceViewModel, DeepPartial, defineProps } 
 
 export interface AuraUserViewModel extends $models.AuraUser {
   
-  /** A unique user identifying GUID */
+  /** Azure Object Id */
   auraUserId: string | null;
   name: string | null;
   email: string | null;
@@ -174,8 +174,8 @@ export class MessagingServiceViewModel extends ServiceViewModel<typeof $metadata
   public get sendText() {
     const sendText = this.$apiClient.$makeCaller(
       this.$metadata.methods.sendText,
-      (c, to: $models.PhoneNumber | null, messagingServiceId: string | null, message: string | null) => c.sendText(to, messagingServiceId, message),
-      () => ({to: null as $models.PhoneNumber | null, messagingServiceId: null as string | null, message: null as string | null, }),
+      (c, to: string | null, messagingServiceId: string | null, message: string | null) => c.sendText(to, messagingServiceId, message),
+      () => ({to: null as string | null, messagingServiceId: null as string | null, message: null as string | null, }),
       (c, args) => c.sendText(args.to, args.messagingServiceId, args.message))
     
     Object.defineProperty(this, 'sendText', {value: sendText});
@@ -185,8 +185,8 @@ export class MessagingServiceViewModel extends ServiceViewModel<typeof $metadata
   public get sendTextAt() {
     const sendTextAt = this.$apiClient.$makeCaller(
       this.$metadata.methods.sendTextAt,
-      (c, to: $models.PhoneNumber | null, messagingServiceId: string | null, message: string | null, messageTime: Date | null) => c.sendTextAt(to, messagingServiceId, message, messageTime),
-      () => ({to: null as $models.PhoneNumber | null, messagingServiceId: null as string | null, message: null as string | null, messageTime: null as Date | null, }),
+      (c, to: string | null, messagingServiceId: string | null, message: string | null, messageTime: Date | null) => c.sendTextAt(to, messagingServiceId, message, messageTime),
+      () => ({to: null as string | null, messagingServiceId: null as string | null, message: null as string | null, messageTime: null as Date | null, }),
       (c, args) => c.sendTextAt(args.to, args.messagingServiceId, args.message, args.messageTime))
     
     Object.defineProperty(this, 'sendTextAt', {value: sendTextAt});
