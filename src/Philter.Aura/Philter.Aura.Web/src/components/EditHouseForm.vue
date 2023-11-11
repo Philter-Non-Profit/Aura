@@ -17,7 +17,9 @@
         </v-row>
     </v-form>
 
+
     <div class="d-flex justify-end pt-4">
+        <slot name="buttons" />
         <v-btn color="primary" variant="elevated" @click="save()"><v-icon icon="fas fa-save" start /> Save </v-btn>
     </div>
 </template>
