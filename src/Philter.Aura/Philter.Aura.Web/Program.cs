@@ -55,16 +55,15 @@ services.AddDbContext<AuraDbContext>(options => options
 
 services.AddCoalesce<AuraDbContext>();
 services.AddScoped<IMessagingService, MessagingService>();
-services.AddSwaggerGen();
 
-services
-    .AddMvc()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-    });
+    services
+        .AddMvc()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        });
 
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie();
@@ -98,6 +97,9 @@ if (app.Environment.IsDevelopment())
 
         await next.Invoke();
     });
+
+    app.UseSwagger();
+    app.UseSwaggerUI();
     // End Dummy Authentication.
 }
 
@@ -135,9 +137,6 @@ app.MapControllers();
 app.Map("/api/{**any}", () => Results.NotFound());
 
 app.MapFallbackToController("Index", "Home");
-
-app.UseSwagger();
-app.UseSwaggerUI();
 
 #endregion
 
