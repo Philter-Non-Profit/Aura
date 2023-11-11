@@ -22,6 +22,9 @@ public class AuraDbContext : DbContext
 
     public DbSet<HouseManager> HouseManagers => Set<HouseManager>();
 
+    public DbSet<Message> Messages => Set<Message>();   
+    public DbSet<Recipient> Recipients => Set<Recipient>(); 
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

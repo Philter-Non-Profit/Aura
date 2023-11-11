@@ -11,6 +11,7 @@ export interface AuraUserViewModel extends $models.AuraUser {
   email: string | null;
   lastLogin: Date | null;
   houseManagers: HouseManagerViewModel[] | null;
+  messages: MessageViewModel[] | null;
 }
 export class AuraUserViewModel extends ViewModel<$models.AuraUser, $apiClients.AuraUserApiClient, string> implements $models.AuraUser  {
   
@@ -103,6 +104,48 @@ export class HouseManagerListViewModel extends ListViewModel<$models.HouseManage
 }
 
 
+export interface MessageViewModel extends $models.Message {
+  messageId: number | null;
+  messageBody: string | null;
+}
+export class MessageViewModel extends ViewModel<$models.Message, $apiClients.MessageApiClient, number> implements $models.Message  {
+  
+  constructor(initialData?: DeepPartial<$models.Message> | null) {
+    super($metadata.Message, new $apiClients.MessageApiClient(), initialData)
+  }
+}
+defineProps(MessageViewModel, $metadata.Message)
+
+export class MessageListViewModel extends ListViewModel<$models.Message, $apiClients.MessageApiClient, MessageViewModel> {
+  
+  constructor() {
+    super($metadata.Message, new $apiClients.MessageApiClient())
+  }
+}
+
+
+export interface RecipientViewModel extends $models.Recipient {
+  recipientId: number | null;
+  recipientName: string | null;
+  recipientPhoneNumber: string | null;
+  messages: MessageViewModel[] | null;
+}
+export class RecipientViewModel extends ViewModel<$models.Recipient, $apiClients.RecipientApiClient, number> implements $models.Recipient  {
+  
+  constructor(initialData?: DeepPartial<$models.Recipient> | null) {
+    super($metadata.Recipient, new $apiClients.RecipientApiClient(), initialData)
+  }
+}
+defineProps(RecipientViewModel, $metadata.Recipient)
+
+export class RecipientListViewModel extends ListViewModel<$models.Recipient, $apiClients.RecipientApiClient, RecipientViewModel> {
+  
+  constructor() {
+    super($metadata.Recipient, new $apiClients.RecipientApiClient())
+  }
+}
+
+
 export interface RoomViewModel extends $models.Room {
   roomId: number | null;
   houseId: number | null;
@@ -149,12 +192,16 @@ const viewModelTypeLookup = ViewModel.typeLookup = {
   AuraUser: AuraUserViewModel,
   House: HouseViewModel,
   HouseManager: HouseManagerViewModel,
+  Message: MessageViewModel,
+  Recipient: RecipientViewModel,
   Room: RoomViewModel,
 }
 const listViewModelTypeLookup = ListViewModel.typeLookup = {
   AuraUser: AuraUserListViewModel,
   House: HouseListViewModel,
   HouseManager: HouseManagerListViewModel,
+  Message: MessageListViewModel,
+  Recipient: RecipientListViewModel,
   Room: RoomListViewModel,
 }
 const serviceViewModelTypeLookup = ServiceViewModel.typeLookup = {

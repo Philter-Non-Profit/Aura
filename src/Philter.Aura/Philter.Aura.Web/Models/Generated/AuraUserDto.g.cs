@@ -17,6 +17,7 @@ namespace Philter.Aura.Web.Models
         private string _Email;
         private System.DateTimeOffset? _LastLogin;
         private System.Collections.Generic.ICollection<Philter.Aura.Web.Models.HouseManagerDtoGen> _HouseManagers;
+        private System.Collections.Generic.ICollection<Philter.Aura.Web.Models.MessageDtoGen> _Messages;
 
         public System.Guid? AuraUserId
         {
@@ -43,6 +44,11 @@ namespace Philter.Aura.Web.Models
             get => _HouseManagers;
             set { _HouseManagers = value; Changed(nameof(HouseManagers)); }
         }
+        public System.Collections.Generic.ICollection<Philter.Aura.Web.Models.MessageDtoGen> Messages
+        {
+            get => _Messages;
+            set { _Messages = value; Changed(nameof(Messages)); }
+        }
 
         /// <summary>
         /// Map from the domain object to the properties of the current DTO instance.
@@ -66,6 +72,18 @@ namespace Philter.Aura.Web.Models
             else if (propValHouseManagers == null && tree?[nameof(this.HouseManagers)] != null)
             {
                 this.HouseManagers = new HouseManagerDtoGen[0];
+            }
+
+            var propValMessages = obj.Messages;
+            if (propValMessages != null && (tree == null || tree[nameof(this.Messages)] != null))
+            {
+                this.Messages = propValMessages
+                    .OrderBy(f => f.MessageId)
+                    .Select(f => f.MapToDto<Philter.Aura.Data.Models.Message, MessageDtoGen>(context, tree?[nameof(this.Messages)])).ToList();
+            }
+            else if (propValMessages == null && tree?[nameof(this.Messages)] != null)
+            {
+                this.Messages = new MessageDtoGen[0];
             }
 
         }
