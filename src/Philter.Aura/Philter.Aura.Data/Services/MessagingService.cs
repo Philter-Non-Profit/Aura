@@ -18,7 +18,7 @@ public class MessagingService : IMessagingService
 {
     private readonly IOptions<TwilioOptions> _twilioOptions;
     private readonly AuraDbContext _dbContext;
-    MessagingService(IOptions<TwilioOptions> options, AuraDbContext db)
+    public MessagingService(IOptions<TwilioOptions> options, AuraDbContext db)
     {
         _twilioOptions = options;
         _dbContext = db;
