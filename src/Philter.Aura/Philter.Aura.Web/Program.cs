@@ -66,6 +66,7 @@ services.AddDbContext<AuraDbContext>(options => options
 
 services.AddCoalesce<AuraDbContext>();
 services.AddScoped<IMessagingService, MessagingService>();
+services.AddSwaggerGen();
 
 services
     .AddMvc()
@@ -199,6 +200,9 @@ app.MapControllers();
 app.Map("/api/{**any}", () => Results.NotFound());
 
 app.MapFallbackToController("Index", "Home");
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 #endregion
 
