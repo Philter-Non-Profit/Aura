@@ -35,10 +35,10 @@ export class RoomApiClient extends ModelApiClient<$models.Room> {
 
 export class MessagingServiceApiClient extends ServiceApiClient<typeof $metadata.MessagingService> {
   constructor() { super($metadata.MessagingService) }
-  public sendText(to: $models.PhoneNumber | null, messagingServiceId: string | null, message: string | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<$models.MessageResource>> {
+  public sendText(phoneNumber: string | null, messagingServiceId: string | null, message: string | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<$models.MessageResource>> {
     const $method = this.$metadata.methods.sendText
     const $params =  {
-      to,
+      phoneNumber,
       messagingServiceId,
       message,
     }

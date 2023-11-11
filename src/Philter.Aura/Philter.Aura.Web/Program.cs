@@ -18,6 +18,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Twilio;
+using Philter.Aura.Web.TwilioSvc;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -52,6 +55,7 @@ services.AddDbContext<AuraDbContext>(options => options
 
 services.AddCoalesce<AuraDbContext>();
 services.AddScoped<IMessagingService, MessagingService>();
+services.AddSwaggerGen();
 
 services
     .AddMvc()
@@ -132,6 +136,9 @@ app.Map("/api/{**any}", () => Results.NotFound());
 
 app.MapFallbackToController("Index", "Home");
 
+app.UseSwagger();
+app.UseSwaggerUI();
+
 #endregion
 
 
@@ -147,6 +154,10 @@ using (var scope = app.Services.CreateScope())
     using var db = serviceScope.GetRequiredService<AuraDbContext>();
     db.Database.Migrate();
 }
+
+
+var options = app.Services.GetRequiredService<IOptions<TwilioOptions>>();
+TwilioClient.Init(options.Value.AccountSid, options.Value.AuthToken);
 
 app.Run();
 

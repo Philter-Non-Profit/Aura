@@ -42,13 +42,13 @@ namespace Philter.Aura.Web.Api
         [HttpPost("SendText")]
         [Authorize]
         public virtual ItemResult<MessageResourceDtoGen> SendText(
-            [FromForm(Name = "to")] PhoneNumberDtoGen to,
+            [FromForm(Name = "phoneNumber")] string phoneNumber,
             [FromForm(Name = "messagingServiceId")] string messagingServiceId,
             [FromForm(Name = "message")] string message)
         {
             var _params = new
             {
-                to = to,
+                phoneNumber = phoneNumber,
                 messagingServiceId = messagingServiceId,
                 message = message
             };
@@ -63,7 +63,7 @@ namespace Philter.Aura.Web.Api
             IncludeTree includeTree = null;
             var _mappingContext = new MappingContext(Context);
             var _methodResult = Service.SendText(
-                _params.to.MapToNew(_mappingContext),
+                _params.phoneNumber,
                 _params.messagingServiceId,
                 _params.message
             );
