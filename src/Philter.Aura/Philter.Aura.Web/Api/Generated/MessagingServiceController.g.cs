@@ -41,14 +41,14 @@ namespace Philter.Aura.Web.Api
         /// </summary>
         [HttpPost("SendText")]
         [Authorize]
-        public virtual ItemResult<MessageResourceDtoGen> SendText(
-            [FromForm(Name = "phoneNumber")] string phoneNumber,
+        public virtual async Task<ItemResult<MessageResourceDtoGen>> SendText(
+            [FromForm(Name = "to")] string to,
             [FromForm(Name = "messagingServiceId")] string messagingServiceId,
             [FromForm(Name = "message")] string message)
         {
             var _params = new
             {
-                phoneNumber = phoneNumber,
+                to = to,
                 messagingServiceId = messagingServiceId,
                 message = message
             };
@@ -62,13 +62,52 @@ namespace Philter.Aura.Web.Api
 
             IncludeTree includeTree = null;
             var _mappingContext = new MappingContext(Context);
-            var _methodResult = Service.SendText(
-                _params.phoneNumber,
+            var _methodResult = await Service.SendText(
+                _params.to,
                 _params.messagingServiceId,
                 _params.message
             );
-            var _result = new ItemResult<MessageResourceDtoGen>();
-            _result.Object = Mapper.MapToDto<Twilio.Rest.Api.V2010.Account.MessageResource, MessageResourceDtoGen>(_methodResult, _mappingContext, includeTree);
+            var _result = new ItemResult<MessageResourceDtoGen>(_methodResult);
+            _result.Object = Mapper.MapToDto<Twilio.Rest.Api.V2010.Account.MessageResource, MessageResourceDtoGen>(_methodResult.Object, _mappingContext, includeTree ?? _methodResult.IncludeTree);
+            return _result;
+        }
+
+        /// <summary>
+        /// Method: SendTextAt
+        /// </summary>
+        [HttpPost("SendTextAt")]
+        [Authorize]
+        public virtual async Task<ItemResult<MessageResourceDtoGen>> SendTextAt(
+            [FromForm(Name = "to")] string to,
+            [FromForm(Name = "messagingServiceId")] string messagingServiceId,
+            [FromForm(Name = "message")] string message,
+            [FromForm(Name = "messageTime")] System.DateTime messageTime)
+        {
+            var _params = new
+            {
+                to = to,
+                messagingServiceId = messagingServiceId,
+                message = message,
+                messageTime = messageTime
+            };
+
+            if (Context.Options.ValidateAttributesForMethods)
+            {
+                var _validationResult = ItemResult.FromParameterValidation(
+                    GeneratedForClassViewModel!.MethodByName("SendTextAt"), _params, HttpContext.RequestServices);
+                if (!_validationResult.WasSuccessful) return new ItemResult<MessageResourceDtoGen>(_validationResult);
+            }
+
+            IncludeTree includeTree = null;
+            var _mappingContext = new MappingContext(Context);
+            var _methodResult = await Service.SendTextAt(
+                _params.to,
+                _params.messagingServiceId,
+                _params.message,
+                _params.messageTime
+            );
+            var _result = new ItemResult<MessageResourceDtoGen>(_methodResult);
+            _result.Object = Mapper.MapToDto<Twilio.Rest.Api.V2010.Account.MessageResource, MessageResourceDtoGen>(_methodResult.Object, _mappingContext, includeTree ?? _methodResult.IncludeTree);
             return _result;
         }
     }

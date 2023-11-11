@@ -35,12 +35,23 @@ export class RoomApiClient extends ModelApiClient<$models.Room> {
 
 export class MessagingServiceApiClient extends ServiceApiClient<typeof $metadata.MessagingService> {
   constructor() { super($metadata.MessagingService) }
-  public sendText(phoneNumber: string | null, messagingServiceId: string | null, message: string | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<$models.MessageResource>> {
+  public sendText(to: string | null, messagingServiceId: string | null, message: string | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<$models.MessageResource>> {
     const $method = this.$metadata.methods.sendText
     const $params =  {
-      phoneNumber,
+      to,
       messagingServiceId,
       message,
+    }
+    return this.$invoke($method, $params, $config)
+  }
+  
+  public sendTextAt(to: string | null, messagingServiceId: string | null, message: string | null, messageTime: Date | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<$models.MessageResource>> {
+    const $method = this.$metadata.methods.sendTextAt
+    const $params =  {
+      to,
+      messagingServiceId,
+      message,
+      messageTime,
     }
     return this.$invoke($method, $params, $config)
   }

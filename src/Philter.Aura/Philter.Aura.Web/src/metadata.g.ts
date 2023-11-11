@@ -634,13 +634,13 @@ export const MessagingService = domain.services.MessagingService = {
       transportType: "item",
       httpMethod: "POST",
       params: {
-        phoneNumber: {
-          name: "phoneNumber",
-          displayName: "Phone Number",
+        to: {
+          name: "to",
+          displayName: "To",
           type: "string",
           role: "value",
           rules: {
-            required: val => (val != null && val !== '') || "Phone Number is required.",
+            required: val => (val != null && val !== '') || "To is required.",
           }
         },
         messagingServiceId: {
@@ -660,6 +660,56 @@ export const MessagingService = domain.services.MessagingService = {
           rules: {
             required: val => (val != null && val !== '') || "Message is required.",
           }
+        },
+      },
+      return: {
+        name: "$return",
+        displayName: "Result",
+        type: "object",
+        get typeDef() { return (domain.types.MessageResource as ObjectType) },
+        role: "value",
+      },
+    },
+    sendTextAt: {
+      name: "sendTextAt",
+      displayName: "Send Text At",
+      transportType: "item",
+      httpMethod: "POST",
+      params: {
+        to: {
+          name: "to",
+          displayName: "To",
+          type: "string",
+          role: "value",
+          rules: {
+            required: val => (val != null && val !== '') || "To is required.",
+          }
+        },
+        messagingServiceId: {
+          name: "messagingServiceId",
+          displayName: "Messaging Service Id",
+          type: "string",
+          role: "value",
+          rules: {
+            required: val => (val != null && val !== '') || "Messaging Service Id is required.",
+          }
+        },
+        message: {
+          name: "message",
+          displayName: "Message",
+          type: "string",
+          role: "value",
+          rules: {
+            required: val => (val != null && val !== '') || "Message is required.",
+          }
+        },
+        messageTime: {
+          name: "messageTime",
+          displayName: "Message Time",
+          type: "date",
+          dateKind: "datetime",
+          noOffset: true,
+          role: "value",
         },
       },
       return: {
