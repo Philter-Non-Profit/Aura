@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Net.Http.Headers;
 using Philter.Aura.Data;
+using Philter.Aura.Data.Services;
+using Philter.Aura.Web.Twilio;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -27,6 +29,8 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
+builder.Host.AddTwilioClient();
+
 #region Configure Services
 
 var services = builder.Services;
@@ -41,6 +45,7 @@ services.AddDbContext<AuraDbContext>(options => options
 );
 
 services.AddCoalesce<AuraDbContext>();
+services.AddScoped<IMessagingService, MessagingService>();
 
 services
     .AddMvc()
