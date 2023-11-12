@@ -29,10 +29,6 @@ public class AuraDbContext : DbContext
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<AuraUser>()
-            .Property(u => u.AuraUserId)
-            .HasDefaultValueSql("newid()");
-
         // Remove cascading deletes.
         foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             relationship.DeleteBehavior = DeleteBehavior.Restrict;
