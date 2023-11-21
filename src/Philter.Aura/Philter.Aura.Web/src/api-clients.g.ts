@@ -23,6 +23,11 @@ export class MessageApiClient extends ModelApiClient<$models.Message> {
 }
 
 
+export class MessageToRecipientApiClient extends ModelApiClient<$models.MessageToRecipient> {
+  constructor() { super($metadata.MessageToRecipient) }
+}
+
+
 export class RecipientApiClient extends ModelApiClient<$models.Recipient> {
   constructor() { super($metadata.Recipient) }
 }
@@ -35,7 +40,7 @@ export class RoomApiClient extends ModelApiClient<$models.Room> {
 
 export class MessagingServiceApiClient extends ServiceApiClient<typeof $metadata.MessagingService> {
   constructor() { super($metadata.MessagingService) }
-  public sendText(to: string | null, messagingServiceId: string | null, message: string | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<$models.MessageResource>> {
+  public sendText(to: string | null, messagingServiceId: string | null, message: $models.Message | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<$models.MessageResource>> {
     const $method = this.$metadata.methods.sendText
     const $params =  {
       to,
@@ -45,13 +50,21 @@ export class MessagingServiceApiClient extends ServiceApiClient<typeof $metadata
     return this.$invoke($method, $params, $config)
   }
   
-  public sendTextAt(to: string | null, messagingServiceId: string | null, message: string | null, messageTime: Date | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<$models.MessageResource>> {
+  public sendTextAt(to: string | null, messagingServiceId: string | null, message: $models.Message | null, messageTime: Date | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<$models.MessageResource>> {
     const $method = this.$metadata.methods.sendTextAt
     const $params =  {
       to,
       messagingServiceId,
       message,
       messageTime,
+    }
+    return this.$invoke($method, $params, $config)
+  }
+  
+  public updateMessageStatusCallback(result: $models.MessageStatusCallbackDto | null, $config?: AxiosRequestConfig): AxiosPromise<ItemResult<void>> {
+    const $method = this.$metadata.methods.updateMessageStatusCallback
+    const $params =  {
+      result,
     }
     return this.$invoke($method, $params, $config)
   }

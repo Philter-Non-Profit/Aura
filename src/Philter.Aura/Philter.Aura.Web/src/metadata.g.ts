@@ -7,6 +7,28 @@ import {
 
 
 const domain: Domain = { enums: {}, types: {}, services: {} }
+export const MessageStatusEnum = domain.enums.MessageStatusEnum = {
+  name: "MessageStatusEnum",
+  displayName: "Message Status Enum",
+  type: "enum",
+  ...getEnumMeta<"Recieved"|"Failed"|"InProgress">([
+  {
+    value: 1,
+    strValue: "Recieved",
+    displayName: "Recieved",
+  },
+  {
+    value: 2,
+    strValue: "Failed",
+    displayName: "Failed",
+  },
+  {
+    value: 3,
+    strValue: "InProgress",
+    displayName: "In Progress",
+  },
+  ]),
+}
 export const AuraUser = domain.types.AuraUser = {
   name: "AuraUser",
   displayName: "Aura User",
@@ -317,6 +339,122 @@ export const Message = domain.types.Message = {
   dataSources: {
   },
 }
+export const MessageToRecipient = domain.types.MessageToRecipient = {
+  name: "MessageToRecipient",
+  displayName: "Message To Recipient",
+  get displayProp() { return this.props.messageToRecipientId }, 
+  type: "model",
+  controllerRoute: "MessageToRecipient",
+  get keyProp() { return this.props.messageToRecipientId }, 
+  behaviorFlags: 7 as BehaviorFlags,
+  props: {
+    messageToRecipientId: {
+      name: "messageToRecipientId",
+      displayName: "Message To Recipient Id",
+      type: "number",
+      role: "primaryKey",
+      hidden: 3 as HiddenAreas,
+    },
+    messageId: {
+      name: "messageId",
+      displayName: "Message Id",
+      type: "number",
+      role: "foreignKey",
+      get principalKey() { return (domain.types.Message as ModelType).props.messageId as PrimaryKeyProperty },
+      get principalType() { return (domain.types.Message as ModelType) },
+      get navigationProp() { return (domain.types.MessageToRecipient as ModelType).props.message as ModelReferenceNavigationProperty },
+      hidden: 3 as HiddenAreas,
+      rules: {
+        required: val => val != null || "Message is required.",
+      }
+    },
+    message: {
+      name: "message",
+      displayName: "Message",
+      type: "model",
+      get typeDef() { return (domain.types.Message as ModelType) },
+      role: "referenceNavigation",
+      get foreignKey() { return (domain.types.MessageToRecipient as ModelType).props.messageId as ForeignKeyProperty },
+      get principalKey() { return (domain.types.Message as ModelType).props.messageId as PrimaryKeyProperty },
+      dontSerialize: true,
+    },
+    twilioMessageSid: {
+      name: "twilioMessageSid",
+      displayName: "Twilio Message Sid",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Twilio Message Sid is required.",
+      }
+    },
+    recipientId: {
+      name: "recipientId",
+      displayName: "Recipient Id",
+      type: "number",
+      role: "foreignKey",
+      get principalKey() { return (domain.types.Recipient as ModelType).props.recipientId as PrimaryKeyProperty },
+      get principalType() { return (domain.types.Recipient as ModelType) },
+      get navigationProp() { return (domain.types.MessageToRecipient as ModelType).props.recipient as ModelReferenceNavigationProperty },
+      hidden: 3 as HiddenAreas,
+      rules: {
+        required: val => val != null || "Recipient is required.",
+      }
+    },
+    recipient: {
+      name: "recipient",
+      displayName: "Recipient",
+      type: "model",
+      get typeDef() { return (domain.types.Recipient as ModelType) },
+      role: "referenceNavigation",
+      get foreignKey() { return (domain.types.MessageToRecipient as ModelType).props.recipientId as ForeignKeyProperty },
+      get principalKey() { return (domain.types.Recipient as ModelType).props.recipientId as PrimaryKeyProperty },
+      dontSerialize: true,
+    },
+    senderId: {
+      name: "senderId",
+      displayName: "Sender Id",
+      type: "string",
+      role: "foreignKey",
+      get principalKey() { return (domain.types.AuraUser as ModelType).props.auraUserId as PrimaryKeyProperty },
+      get principalType() { return (domain.types.AuraUser as ModelType) },
+      get navigationProp() { return (domain.types.MessageToRecipient as ModelType).props.sender as ModelReferenceNavigationProperty },
+      hidden: 3 as HiddenAreas,
+      rules: {
+        required: val => val != null || "Sender is required.",
+        pattern: val => !val || /^\s*[{(]?[0-9A-Fa-f]{8}[-]?(?:[0-9A-Fa-f]{4}[-]?){3}[0-9A-Fa-f]{12}[)}]?\s*$/.test(val) || "Sender does not match expected format.",
+      }
+    },
+    sender: {
+      name: "sender",
+      displayName: "Sender",
+      type: "model",
+      get typeDef() { return (domain.types.AuraUser as ModelType) },
+      role: "referenceNavigation",
+      get foreignKey() { return (domain.types.MessageToRecipient as ModelType).props.senderId as ForeignKeyProperty },
+      get principalKey() { return (domain.types.AuraUser as ModelType).props.auraUserId as PrimaryKeyProperty },
+      dontSerialize: true,
+    },
+    statusId: {
+      name: "statusId",
+      displayName: "Status Id",
+      type: "enum",
+      get typeDef() { return domain.enums.MessageStatusEnum },
+      role: "value",
+    },
+    dateSent: {
+      name: "dateSent",
+      displayName: "Date Sent",
+      type: "date",
+      dateKind: "datetime",
+      noOffset: true,
+      role: "value",
+    },
+  },
+  methods: {
+  },
+  dataSources: {
+  },
+}
 export const Recipient = domain.types.Recipient = {
   name: "Recipient",
   displayName: "Recipient",
@@ -608,6 +746,61 @@ export const MessageResource = domain.types.MessageResource = {
     },
   },
 }
+export const MessageStatusCallbackDto = domain.types.MessageStatusCallbackDto = {
+  name: "MessageStatusCallbackDto",
+  displayName: "Message Status Callback Dto",
+  type: "object",
+  props: {
+    accountSid: {
+      name: "accountSid",
+      displayName: "Account Sid",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Account Sid is required.",
+      }
+    },
+    from: {
+      name: "from",
+      displayName: "From",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "From is required.",
+      }
+    },
+    messageSid: {
+      name: "messageSid",
+      displayName: "Message Sid",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Message Sid is required.",
+      }
+    },
+    messageStatus: {
+      name: "messageStatus",
+      displayName: "Message Status",
+      type: "string",
+      role: "value",
+      rules: {
+        required: val => (val != null && val !== '') || "Message Status is required.",
+      }
+    },
+    smsSid: {
+      name: "smsSid",
+      displayName: "Sms Sid",
+      type: "string",
+      role: "value",
+    },
+    smsStatus: {
+      name: "smsStatus",
+      displayName: "Sms Status",
+      type: "string",
+      role: "value",
+    },
+  },
+}
 export const PhoneNumber = domain.types.PhoneNumber = {
   name: "PhoneNumber",
   displayName: "Phone Number",
@@ -655,10 +848,11 @@ export const MessagingService = domain.services.MessagingService = {
         message: {
           name: "message",
           displayName: "Message",
-          type: "string",
+          type: "model",
+          get typeDef() { return (domain.types.Message as ModelType) },
           role: "value",
           rules: {
-            required: val => (val != null && val !== '') || "Message is required.",
+            required: val => val != null || "Message is required.",
           }
         },
       },
@@ -697,10 +891,11 @@ export const MessagingService = domain.services.MessagingService = {
         message: {
           name: "message",
           displayName: "Message",
-          type: "string",
+          type: "model",
+          get typeDef() { return (domain.types.Message as ModelType) },
           role: "value",
           rules: {
-            required: val => (val != null && val !== '') || "Message is required.",
+            required: val => val != null || "Message is required.",
           }
         },
         messageTime: {
@@ -720,11 +915,36 @@ export const MessagingService = domain.services.MessagingService = {
         role: "value",
       },
     },
+    updateMessageStatusCallback: {
+      name: "updateMessageStatusCallback",
+      displayName: "Update Message Status Callback",
+      transportType: "item",
+      httpMethod: "POST",
+      params: {
+        result: {
+          name: "result",
+          displayName: "Result",
+          type: "object",
+          get typeDef() { return (domain.types.MessageStatusCallbackDto as ObjectType) },
+          role: "value",
+          rules: {
+            required: val => val != null || "Result is required.",
+          }
+        },
+      },
+      return: {
+        name: "$return",
+        displayName: "Result",
+        type: "void",
+        role: "value",
+      },
+    },
   },
 }
 
 interface AppDomain extends Domain {
   enums: {
+    MessageStatusEnum: typeof MessageStatusEnum
   }
   types: {
     AuraUser: typeof AuraUser
@@ -733,6 +953,8 @@ interface AppDomain extends Domain {
     HouseManager: typeof HouseManager
     Message: typeof Message
     MessageResource: typeof MessageResource
+    MessageStatusCallbackDto: typeof MessageStatusCallbackDto
+    MessageToRecipient: typeof MessageToRecipient
     PhoneNumber: typeof PhoneNumber
     Recipient: typeof Recipient
     Room: typeof Room
