@@ -12,9 +12,11 @@ public class MessageToRecipient
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
-    public long MessageToRecipientId { get; set; } 
+    public long MessageToRecipientId { get; set; }
     public long MessageId { get; set; }
-    public Message? Message { get; set; }   
+    public Message? Message { get; set; }
+    [Required]
+    public required string TwilioMessageSid {get; set; }
     
     [Required]
     public long RecipientId { get; set; }  

@@ -24,14 +24,11 @@ public class AuraDbContext : DbContext
 
     public DbSet<Message> Messages => Set<Message>();   
     public DbSet<Recipient> Recipients => Set<Recipient>(); 
+    public DbSet<MessageToRecipient> MessageToRecipients => Set<MessageToRecipient>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
-        builder.Entity<AuraUser>()
-            .Property(u => u.AuraUserId)
-            .HasDefaultValueSql("newid()");
 
         // Remove cascading deletes.
         foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
