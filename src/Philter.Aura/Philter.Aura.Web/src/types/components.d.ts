@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     CLoaderStatus: typeof import('coalesce-vue-vuetify3')['CLoaderStatus']
     Dialog: typeof import('./../components/Dialog.vue')['default']
     EditHouseForm: typeof import('./../components/EditHouseForm.vue')['default']
+    EditRoomForm: typeof import('./../components/EditRoomForm.vue')['default']
     HouseCard: typeof import('./../components/HouseCard.vue')['default']
     RoomCard: typeof import('./../components/RoomCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -26,6 +27,7 @@ declare module '@vue/runtime-core' {
     VCardItem: typeof import('vuetify/components')['VCardItem']
     VCardText: typeof import('vuetify/components')['VCardText']
     VCardTitle: typeof import('vuetify/components')['VCardTitle']
+    VChip: typeof import('vuetify/components')['VChip']
     VCol: typeof import('vuetify/components')['VCol']
     VContainer: typeof import('vuetify/components')['VContainer']
     VDialog: typeof import('vuetify/components')['VDialog']
@@ -37,6 +39,7 @@ declare module '@vue/runtime-core' {
     VMain: typeof import('vuetify/components')['VMain']
     VNavigationDrawer: typeof import('vuetify/components')['VNavigationDrawer']
     VRow: typeof import('vuetify/components')['VRow']
+    VSelect: typeof import('vuetify/components')['VSelect']
     VToolbarTitle: typeof import('vuetify/components')['VToolbarTitle']
   }
 }
