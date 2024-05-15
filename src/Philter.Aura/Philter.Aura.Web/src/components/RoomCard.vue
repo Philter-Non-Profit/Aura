@@ -9,7 +9,7 @@
         </template>
     </CardWithIcon>
     <Dialog title="Edit" v-model="editRoom">
-          <EditRoomForm :room="room" :houseId="room.houseId!" @saved="editRoom = false">
+          <EditRoomForm :room="room" :houseId="room!.houseId!" @saved="editRoom = false">
               <template #buttons>
                   <v-btn color="primary" variant="tonal" class="mr-3" @click="editRoom = false">Cancel</v-btn>
               </template>

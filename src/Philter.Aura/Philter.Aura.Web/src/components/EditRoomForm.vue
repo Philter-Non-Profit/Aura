@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { RoomViewModel } from "@/viewmodels.g";
+import { HouseViewModel, RoomViewModel } from "@/viewmodels.g";
 import { VForm } from "vuetify/components";
 
 const props = defineProps<{
@@ -33,8 +33,8 @@ const emit = defineEmits<{
 
 const editRoom = computed(() => {
     let room = new RoomViewModel();
-    room.houseId = props.houseId;
     if (props.room) { room = props.room; }
+    else { room.houseId = props.houseId; }
     return room;
 });
 

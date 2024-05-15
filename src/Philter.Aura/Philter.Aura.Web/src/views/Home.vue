@@ -41,7 +41,7 @@
         </div>
       </div>
       <Dialog title="Add Room" v-model="addRoom">
-          <EditRoomForm :room="room" :houseId="room?.houseId!" @saved="loadHouses(); addRoom = false">
+          <EditRoomForm :houseId="house!.houseId!" @saved="loadHouses(); addRoom = false">
               <template #buttons>
                   <v-btn color="primary" variant="tonal" class="mr-3" @click="addRoom = false">Cancel</v-btn>
               </template>
@@ -62,7 +62,6 @@
   houseList.value.$load();
 
   const house = computed(() => houseList.value?.$items[0]);
-  const room: Ref<undefined | RoomViewModel> = ref(undefined);
   const addRoom = ref(false);
 
   function loadHouses() {
