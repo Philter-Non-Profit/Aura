@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <c-loader-status :loaders="{ '': [houseList?.$load] }">
-      <div v-if="houseList">
+      <div v-if="house">
         <v-row>
           <v-col cols="12" md="6" lg="5" xl="4" v-if="house">
             <HouseCard :house="house" color="purple" />
@@ -24,7 +24,7 @@
               <div class="text-h6 mr-2">
                 Rooms
               </div>
-              <v-btn @click="editRoom = !editRoom" color="purple" density="comfortable" icon="fas fa-plus" variant="tonal" />
+              <v-btn @click="addRoom = !addRoom" color="purple" density="comfortable" icon="fas fa-plus" variant="tonal" />
             </v-col>
             <v-col cols="12"><v-divider /></v-col>
           </v-row>
@@ -40,10 +40,10 @@
           </v-row>
         </div>
       </div>
-      <Dialog title="Edit" v-model="editRoom">
-          <EditRoomForm :room="room" :house="house!" @saved="loadHouses(); editRoom = false">
+      <Dialog title="Add Room" v-model="addRoom">
+          <EditRoomForm :room="room" :houseId="room?.houseId!" @saved="loadHouses(); addRoom = false">
               <template #buttons>
-                  <v-btn color="primary" variant="tonal" class="mr-3" @click="editRoom = false">Cancel</v-btn>
+                  <v-btn color="primary" variant="tonal" class="mr-3" @click="addRoom = false">Cancel</v-btn>
               </template>
           </EditRoomForm>
       </Dialog>
@@ -63,7 +63,7 @@
 
   const house = computed(() => houseList.value?.$items[0]);
   const room: Ref<undefined | RoomViewModel> = ref(undefined);
-  const editRoom = ref(false);
+  const addRoom = ref(false);
 
   function loadHouses() {
     houseList.value?.$load();
