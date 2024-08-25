@@ -23,6 +23,12 @@
           </template>
           <v-list-item-title>Admin Pages</v-list-item-title>
         </v-list-item>
+        <v-list-item link to="/messages">
+          <template #prepend>
+            <v-icon>fas fa-message</v-icon>
+          </template>
+          <v-list-item-title>Messages</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
